@@ -1,0 +1,120 @@
+
+
+body {
+  font-size: medium;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  background:-moz-radial-gradient(23% 22% 221deg, #00FFBC, #FF653A 93%);
+  overflow-y:hidden;
+}
+#div1{position: absolute;
+  top: 0%;
+  width: 100%;
+  height: 15%;
+ background:-moz-radial-gradient(23% 22% 221deg, #00FFBC, #FF653A 93%);
+  
+  opacity:1.0;
+  }
+
+#sideDiv {
+    position: absolute;
+  top: 15%;
+  left: 0%;
+  width: 50%;
+  height: 75%;
+ background:-moz-radial-gradient(53% 22% 221deg, #00FFBC, #FF653A 93%);
+  font-size: small;
+  
+  }
+#bodyDiv1 {
+position: absolute;
+background:-moz-radial-gradient(53% 22% 221deg, #00FFBC, #FF653A 93%);
+       padding: 0;
+	top:15%;
+	left:50%;
+	width:50%;
+	height:75%;
+   
+   }
+ 
+
+
+#hello {
+position: absolute;
+background:-moz-radial-gradient(53% 22% 221deg, #00FFBC, #FF653A 93%);
+ border: 1px solid black;
+    outline-color:red;
+	
+top:1%;
+left:2%;
+right:4%;
+bottom:2%;
+	width:94%;
+	height:97%;
+  
+   }
+
+#hello2 {
+position: absolute;
+background:-moz-radial-gradient(53% 22% 221deg, #00FFBC, #FF653A 93%);
+  
+top:1%;
+left:2%;
+right:4%;
+bottom:1.5%;
+ border: 1px solid black;
+    outline-color:red;
+	width:94%;
+	height:97.5%;
+  
+   }   
+
+   #btn2 {
+position: absolute;
+  
+top:10%;
+left:1%;
+ border: 1px solid black;
+    outline-color:red;
+	width:7%;
+	height:50%;
+  
+   }
+ a {
+position: absolute;
+  
+top:10%;
+left:9%;
+ border: 1px solid black;
+    outline-color:red;
+	width:7%;
+	height:50%;
+  
+   }   
+   
+   
+      #downloadlink {
+position: absolute;
+  
+top:60%;
+left:1%;
+ border: 0px solid black;
+    outline-color:red;
+	width:7%;
+	height:50%;
+  
+   }
+   #footerDiv {
+    
+  position: absolute;
+  top: 90%;
+  left: 0%;
+  width: 100%;
+  height: 10%;background:-moz-radial-gradient(23% 22% 221deg, #00FFBC, #FF653A 93%);
+ 
+  font-size: small;	
+  }
+
+

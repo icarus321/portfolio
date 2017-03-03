@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- saved from url=(0014)about:internet -->
+  <title>Template 1</title>
+
+  <!-- Patch to make semantic elements work in IE8 and below. -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link rel="stylesheet" href="myCSS.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+var counter = 0;
+$(function hi(){
+   var link = document.getElementById('downloadlink');
+       
+        link.style.display = 'block';
+    $("#btn2").click(function(){
+var bla = $(hello).val();
+
+
+
+
+
+		var textFile = null,
+        makeTextFile = function (text) {
+            var data = new Blob([text], {
+                type: 'unicode'
+            });
+
+            // If we are replacing a previously generated file we need to
+            // manually revoke the object URL to avoid memory leaks.
+            if (textFile !== null) {
+                window.URL.revokeObjectURL(textFile);
+            }
+
+            textFile = window.URL.createObjectURL(data);
+
+            return textFile;
+        };
+
+
+    var create = document.getElementById('btn1'),
+        textbox = document.getElementById('hello');
+
+    
+        
+        link.href = makeTextFile(textbox.value);
+    
+	
+	
+	
+	counter+=1;
+	if(counter>0){
+	 $("#hello2").empty();
+	counter=0;
+
+	}
+	
+		$("#hello2").append(bla);
+    });
+
+	
+	 
+	});
+
+
+</script>
+ 
+</head>
+<body>
+<div id="div1"><p><center><h1>Welcome to < /codeTester.com!></h1></center></p></div>
+   <div id="bodyDiv1"><div id="hello2"></div>
+   </div>
+  
+<div id="sideDiv"><textarea id="hello" rows="10" cols="25"></textarea>
+</div>
+   <div id="footerDiv">
+     <button id="btn2" onclick="hi()" style="background-color:#FF653A;">Code</button>
+	 <form action="#">
+
+</form>
+<a download="myHTML.html" id="downloadlink" style="display: none"><button id="btn1" style="background-color:#FF653A;">Download</button></a>
+ </div>
+</body>
+</html>
