@@ -1,1 +1,11 @@
-this is the readme
+Program automates state level workflows for Iowa's 99 counties.  
+The script prompts for user input which should be a list of files from the state's GIS website.
+Data is output as a JPEG and mxd file.  Easy updates are possible with the inclusion of the mxd file.
+Program is limited in the sense that one reference map template must be created in order for the other 98 maps to 
+be generated.
+
+Future works/updates should address renaming of legend items to something more appropriate than file names and possibly
+include Arcpy's panning funcitonality.
+
+This program gets done in minutes what would otherwise take hours to complete.
+
