@@ -9,8 +9,7 @@ No display plugins are included for Chrome or any other browser other than Firef
 Future works should address naming and choice of the tags in the body of the program.  The current design is vulnerable to 
 unintended display changes if the user names a tag with the same name as one of the parent tags in the applicaiton.  The best
 approach to dealing with this current limitation is to only reference tags by id and to obviously not use any id's 
-already used in the application.
- 
+already used in the application.   
 
 Although JavaScript can be tested in the applicaiton it's primary purpose is for the quick production of layouts.  Users
 of the application should not expect too much dynamic functionality though it is possible to do so.
