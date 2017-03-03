@@ -1,1 +1,16 @@
+This is a basic HTML testing application.  It is similar in nature to the application provided by 
+W3schools though it is programmed using distinctly different code and design.  The program also allows for
+exporting the code once the client is happy with the general layout.  The exporting is done through a button.
+Javascript can be tested in the applicaiton.
 
+Limitations exist in the program.  Though the applicaiton will work in many browsers it's intended to be used in Firefox.
+No display plugins are included for Chrome or any other browser other than Firefox.
+
+Future works should address naming and choice of the tags in the body of the program.  The current design is vulnerable to 
+unintended display changes if the user names a tag with the same name as one of the parent tags in the applicaiton.
+
+It's a pretty cool program that allows clients to quickly generate nice layouts without having to open a text editor.
+Also saves on the time needed to safe and export files as HTML pages.  
+
+Although JavaScript can be tested in the applicaiton it's primary purpose is for the quick production of layouts.  Users
+of the application should not expect too much dynamic functionality though it is possible to do so.
