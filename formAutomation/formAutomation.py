@@ -25,7 +25,7 @@ url2 = "the url&formId1=username&formId2=password&FormSubmitId= Log In"
 #code below makes the connection and opens the page
 webbrowser.open(url2, new=2, autoraise=True)
 
-#if multiple accounts are to be include you may find it necessary to put some iterator or time function
+#if multiple accounts are to be included you may find it necessary to put some iterator or time function
 #program execution is fast enough to force the browser to open new windows rather than new tabs
 #a simple loop will serve this added requirement
 
