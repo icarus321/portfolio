@@ -1,6 +1,6 @@
 This is the perfect program for those of us waiting on a robot to do our work.  It's a small application that goes through the
 process of logging into user accounts.  It's another demonstration of the power provided by the Python programming language.
-Users of the program need to identify the name of four form elements on their login page: (1) user name id, (2) password id,
+Users of the program need to identify the name of four form elements on their login page: (1) username id, (2) password id,
 (3) submit id and (4) submit value.
 
 Clients can add as many login pages as they like.  It's great if you have multiple accounts that you log into frequently.
