@@ -1,5 +1,4 @@
-This is the perfect program for those of us waiting on a robot to do our work.  It's a small application that goes through the
-process of logging into user accounts.  It's another demonstration of the power provided by the Python programming language.
+This is a small application that goes through the process of logging into user accounts.  It's another demonstration of the power provided by the Python programming language.
 Users of the program need to identify the name of four form elements on their login page: (1) username id, (2) password id,
 (3) submit id and (4) submit value.
 
@@ -8,6 +7,4 @@ Clients can add as many login pages as they like.  It's great if you have multip
 The program can be enhanced by compiling the code into an executable.  Some programs exist that allow for this functionality 
 though none were produced with this application.
 
-Be careful with this program.  Though it automates repetitive tasks, it does leave the door open for potential "risky business".
 
-It does in one click what would otherwise take five, ten or even twenty clicks.
