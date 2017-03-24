@@ -12,7 +12,7 @@ approach to dealing with this current limitation is to only reference tags by id
 already used in the application.   
 
 Although JavaScript can be tested in the applicaiton, it's primary purpose is for the quick production of layouts.  Users
-of the application should not expect too much dynamic functionality though it is possible to do so.
+of the application should not expect too much in terms of dynamic functionality though it is possible to do so.
 
 It's a pretty cool program that allows clients to quickly generate nice layouts without having to open a text editor.
 Also saves on the time needed to save and export files as HTML pages.  
