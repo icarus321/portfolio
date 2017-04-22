@@ -93,17 +93,17 @@ def myResponse(myCount, path1, response, numZips2):
                     zip1 = zipfile.ZipFile(myRetrieveDir +"\\" + allFinal1)
                     zip1.extractall(myRetrieveDir)
                 numZipsIter+=1
+    
+                    
 
 
 
-pickData()
+#pickData()
+#os.chdir(path)
+#env.workspace = path+ "\\symbology\\"
+#zp1 = os.listdir(path + "\\counties\\")
 
-
-os.chdir(path)
-env.workspace = path+ "\\symbology\\"
-zp1 = os.listdir(path + "\\counties\\")
-
-def myGeoprocessing(countyName):
+def myGeoprocessing(countyName, myIterCounty):
     #the code in this function is used for geoprocessing operations
     #it returns whatever output is generated from the tools used in the map
     #will do whatever tools are listed for each folder
@@ -121,13 +121,22 @@ def myGeoprocessing(countyName):
 
     #expression below is for geoprocessing operations involving layers larger than the county study area
     #first expression will likely always be used as it makes a boundary for each county, other examples clip streams to study area and create layer for an inset map
-        
-    arcpy.Select_analysis(path + "\\symbology\\county.shp", path + "\\counties\\" + countyName + "\\" + countyName + ".shp", '"County" = ' + "'%s'" %countyName)
-    arcpy.Clip_analysis(path + "\\symbology\\Stream_order.shp", path + "\\counties\\" + countyName + "\\" + countyName + ".shp", path + "\\counties\\" + countyName + "\\Streams.shp")
+    myCounty = path + "\\symbology\\county.shp"
+    countyNameF=countyName
+    if "_" in countyName:
+        countyNameF = countyName.replace("_", " ")
+    mySelect = arcpy.Select_analysis(myCounty, path + "\\counties\\" + countyName + "\\" + countyName + ".shp", '"County" = ' + "'%s'" %countyNameF)
+    arcpy.Clip_analysis(path + "\\symbology\\stream_order.shp", path + "\\counties\\" + countyName + "\\" + countyName + ".shp", path + "\\counties\\" + countyName + "\\Streams.shp")
+    arcpy.Clip_analysis(path + "\\symbology\\public_hunting_lands.shp", path + "\\counties\\" + countyName + "\\" + countyName + ".shp", path + "\\counties\\" + countyName + "\\Hunting_Areas.shp")
+    arcpy.Clip_analysis(path + "\\symbology\\towns.shp", path + "\\counties\\" + countyName + "\\" + countyName + ".shp", path + "\\counties\\" + countyName + "\\Towns.shp")
  
     myArray = []
     streams = arcpy.mapping.Layer(path + "\\counties\\" + countyName + "\\Streams.shp")
     arcpy.ApplySymbologyFromLayer_management(streams, path+ '\\symbology\\streams.lyr')
+    hunting = arcpy.mapping.Layer(path + "\\counties\\" + countyName + "\\Hunting_Areas.shp")
+    arcpy.ApplySymbologyFromLayer_management(hunting, path+ '\\symbology\\public_hunting_lands.lyr')
+    towns = arcpy.mapping.Layer(path + "\\counties\\" + countyName + "\\Towns.shp")
+    arcpy.ApplySymbologyFromLayer_management(towns, path+ '\\symbology\\towns.lyr')
     myCounty = arcpy.mapping.Layer(path + "\\counties\\" + countyName + "\\" + countyName + ".shp")
     arcpy.ApplySymbologyFromLayer_management(myCounty, path+ '\\symbology\\singleCounty.lyr')
     myCountyMain = arcpy.mapping.Layer(path + "\\counties\\" + countyName + "\\" + countyName + ".shp")
@@ -135,8 +144,13 @@ def myGeoprocessing(countyName):
     myArray.append(myCounty)
     myArray.append(myCountyMain)
     myArray.append(streams)
+    myArray.append(hunting)
+    myArray.append(towns)
     #returns an array of each layer intended to be included in the map
     myIterCounty+=1
+    myArray.append(myIterCounty)
+    del myCounty
+    del mySelect
     return myArray
 
 
@@ -146,23 +160,25 @@ def myGeoprocessing(countyName):
 
 
 
-def makeMap():
+def makeMap(myMxdName,myDfScale,myTitle, x, y):
     #original wetlands layers need to be entered as NWI_line or NWI_poly
-
+    os.chdir(path)
+    env.workspace = path+ "\\symbology\\"
+    zp1 = os.listdir(path + "\\counties\\")
     #line below takes user input seperated by commas
     print "Enter which files you plan to include in the map"
     myFiles = raw_input()
     myFiles2 = myFiles.split(",")
-    
+    myIterCounty = 1
     counter1 = 1
     #create the mapping documents
-    theMap = arcpy.mapping.MapDocument(path +'\\wetland.mxd')
-    df1 = arcpy.mapping.ListDataFrames(theMap,"*")[0]
-    df2 = arcpy.mapping.ListDataFrames(theMap,"*")[1]
-    legend = arcpy.mapping.ListLayoutElements(theMap, "LEGEND_ELEMENT", "Legend")[0]
+    #theMap = arcpy.mapping.MapDocument(path +'\\wetland.mxd')
+    #df1 = arcpy.mapping.ListDataFrames(theMap,"*")[0]
+    #df2 = arcpy.mapping.ListDataFrames(theMap,"*")[1]
+    #legend = arcpy.mapping.ListLayoutElements(theMap, "LEGEND_ELEMENT", "Legend")[0]
     #for loop iterates through the county directory, each is the name of the county
     for each in zp1:
-        theMap = arcpy.mapping.MapDocument(path +'\\wetland.mxd')
+        theMap = arcpy.mapping.MapDocument(path +'\\'+ myMxdName+ '.mxd')
         df1 = arcpy.mapping.ListDataFrames(theMap,"*")[0]
         df2 = arcpy.mapping.ListDataFrames(theMap,"*")[1]
         legend = arcpy.mapping.ListLayoutElements(theMap, "LEGEND_ELEMENT", "Legend")[0]
@@ -179,16 +195,13 @@ def makeMap():
                                 
                     #if condition checks for shapefiles 
                     if (eachNew[-4:] == ".shp"):
-                        print eachNew[-4:]
+                        
                         try:
                             layer1 = arcpy.mapping.Layer(path + "\\counties\\" + each + "\\" + eachNew)
-                            print layer1
                             if((eachNew[7:11] == "poly" or eachNew[7:11] =="line") and "ssurgo" not in eachNew):
-                                print eachNew
                                 myLayerSymb = eachNew[0:3]+eachNew[7:-4]
                                 arcpy.ApplySymbologyFromLayer_management(layer1, path + '\\symbology\\' +myLayerSymb+'.lyr')
                             else:
-                                print eachNew
                                 arcpy.ApplySymbologyFromLayer_management(layer1, path + '\\symbology\\' +eachNew[0:-7]+'.lyr')
 
                             # Assign legend variable for map
@@ -222,12 +235,16 @@ def makeMap():
                         
         
         #this is the call to the geoprocessing function            
-        varGeoprocessing = myGeoprocessing(each)
+        varGeoprocessing = myGeoprocessing(each, myIterCounty)
+        myIterCounty=varGeoprocessing[len(varGeoprocessing)-1]
         # more geoprocessing options, add the layers to map and assign if they should appear in legend
         #push the legend items into function params
         try:
             legend.autoAdd = True
             arcpy.mapping.AddLayer(df1, varGeoprocessing[2],"AUTO_ARRANGE")
+            #arcpy.mapping.AddLayer(df1, varGeoprocessing[3],"AUTO_ARRANGE")
+            #varGeoprocessing[4].showLabels = True
+            #arcpy.mapping.AddLayer(df1, varGeoprocessing[4],"AUTO_ARRANGE")
             legend.autoAdd = False
             arcpy.mapping.AddLayer(df1, varGeoprocessing[1],"AUTO_ARRANGE")
             arcpy.mapping.AddLayer(df2, varGeoprocessing[0],"AUTO_ARRANGE")
@@ -235,19 +252,32 @@ def makeMap():
             pass
         #try block sets the extent to the county, saves the map and exports map to jpeg
         try:
-
-            df1.extent = varGeoprocessing[1].getExtent(True)
-            df1.scale = df1.scale*1.75
-
-            theMap.title = each + " County Wetlands"
-            arcpy.mapping.ExportToJPEG(theMap, path + "\\counties\\" + each + "\\wetland.jpg")
+            myExtent = varGeoprocessing[1].getExtent(True)
+            myExtent2 = str(myExtent).split(" ")
+            extent = arcpy.Extent(float(myExtent2[0])-x,float(myExtent2[1])-y,float(myExtent2[2])-x,float(myExtent2[3])-y)
+            df1.panToExtent(extent)
+            df1.scale = df1.scale*myDfScale
+            eachF=each
+            if "_" in each:
+                eachF=each.replace("_", " ")
+            theMap.title = eachF + " County " + myTitle
+            arcpy.mapping.ExportToJPEG(theMap, path + "\\counties\\" + each + "\\"+myMxdName+".jpg")
             #Save map document to path
-            theMap.saveACopy(path + "\\counties\\" + each + "\\wetland.mxd")
+            theMap.saveACopy(path + "\\counties\\" + each + "\\"+myMxdName+".mxd")
             del theMap
             
             print "done with map " + str(counter1)
         except:
             print "issue with map or already exists"
         counter1+=1
-myIterCounty = 1
-makeMap()
+
+
+myMxdName = "wetland"
+#myDfScale = 1.2
+myDfScale = 1.2
+myTitle="Wetlands"
+x = 0
+y=3000
+#y=0
+pickData()
+makeMap(myMxdName,myDfScale,myTitle, x, y)
