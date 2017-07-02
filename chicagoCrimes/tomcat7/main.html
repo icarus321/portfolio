@@ -1,0 +1,624 @@
+<html>
+
+
+<head>
+<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=11" />
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+  	
+	<link rel="stylesheet" type="text/css" href="myCSSchi.css">
+	<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="myGeo.geojson"></script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="canvasChart.js"></script>
+	<script src="wardPop.js"></script>
+	
+	
+
+<style>
+
+#leftContainer {
+    
+    margin: 10px auto;
+    
+    
+   
+    border-radius: 20px;
+}
+::-webkit-scrollbar {
+    width: 14px;
+}
+ 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    border-top-left-radius: 0;
+     border-bottom-left-radius: 0;background: white;
+}
+ 
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    border-radius: 10px;
+    border-top-left-radius: 0;
+     border-bottom-left-radius: 0;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+</style>
+	
+<script>
+
+
+//add legend
+//change array to global variable
+//javascript date
+//caglar procedures
+//push js to new page
+//add marker symbol for editing
+
+
+myGlobalArray = [];
+myArrayResponse = [];
+myDateArray = [];myDateArray2 = [];
+myGeoA =[];
+choroA=[];chartsA=[];
+var myDateAnimation=[];
+var myTypeAnimation=[];
+var theIter=0;
+var chartsInt;
+var wardIter = 0;
+var cIter =1;
+j=0;
+var myInterval;
+var choroCheck;
+
+
+
+
+
+
+
+function myFun(){
+		var map = L.map('map',{ center: [41.83969, -87.663776], zoom: 11});
+		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
+		myGlobalArray.push(map);
+//myGlobalArray[0].on('click',function(e){alert("lat/lon: " + e.latlng);});
+//sw = L.latLng(38.5911,-92.18628);ne = L.latLng(44.22158,-83.69385);
+//var bounds = L.latLngBounds(sw,ne);
+//myGlobalArray[0].setMaxBounds(bounds);
+
+
+
+		
+}
+
+
+
+
+function showUser(str, myInt) {
+//document.getElementById("leftContainer").style.overflow="hidden";
+//only want to toggle if choro is present
+if(choroCheck==2 && str != "categories"){
+wardIter=0;
+$("#lc2").empty();
+togWards();}
+choroCheck=1;
+    if (str == "categories") { alert("Need to pick a crime");return;} 
+    
+    else {
+        if (window.XMLHttpRequest) {xmlhttp = new XMLHttpRequest();} 
+        else {xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");}
+        
+        xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status >= 200 && this.status<300) {
+        	 if(theIter>=3){alert("Unable to connect to the database at this time.  Try again later.");theIter=0;return;}
+			if(myInt==4){myInt=1;showUser(str,myInt);return;}
+			 if(myInt == 1 || myInt == 2){
+				myArrayResponse = this.responseText.split(";");
+				myArrayResponse.splice(0,1);myArrayResponse.splice(myArrayResponse.length-1,1);
+				
+				}
+        	  
+        	 if(myInt ==3){choroA = this.responseText.split(";");choroA.splice(0,1);choroA.splice(choroA.length-1,1);}
+			 
+			 //if statement below checks if the response did not come back for the choropleth and if not it calls function again
+        	 if(typeof(choroA[1])== "undefined" && theIter <4 && (myInt == 3)){showUser(str,myInt);theIter++;return;}
+             
+			 //if statement below handles undefined query and date calls, recursive call to function if empty
+ 			if(typeof(myArrayResponse[1])== "undefined" && theIter ==2 && (myInt ==2)){
+			document.getElementById("datepicker").value="";document.getElementById("datepicker2").value="";
+			document.getElementById("datepicker").placeholder="Pick a Start Date";document.getElementById("datepicker2").placeholder="Pick an End Date";
+				myDateArray=[];myDateArray2=[];
+            		alert("No results in the time period specified");return;
+            		}
+			 if(typeof(myArrayResponse[0])== "undefined" && theIter <4 && (myInt == 1 || myInt ==2)){
+            		showUser(str,myInt);theIter++;return;
+            		}
+
+             		if(myInt==2){document.getElementById("datepicker").value="";document.getElementById("datepicker2").value="";
+				document.getElementById("datepicker").placeholder="Pick a Start Date";document.getElementById("datepicker2").placeholder="Pick an End Date";
+				myDateArray=[];myDateArray2=[];}
+			 //two if statements below make calls to the functions that return the map objects
+			 if(myInt == 1 || myInt == 2 || myInt == 4){myArrayFun(str);}
+             
+             if(myInt == 3){choroFun2(str);}
+              if(myInt ==5){chartsA = this.responseText.split(";");chartsA.splice(0,1);chartsA.splice(chartsA.length-1,1);makeCharts(str);}
+		if(myInt ==6){animationA = this.responseText.split(";");animationA.splice(0,1);animationA.splice(animationA.length-1,1);
+myDateAnimation=[];myArrayResponse=[];
+for(a=0;a<animationA.length;a++){animationB = animationA[a].split("~");myDateAnimation.push(animationB[0]);myArrayResponse.push(animationB[1]);}
+
+makeAnimation(str);}
+          }
+        }; 
+        //end og xmlhttp.onreadystatechange function
+
+	//four if statements that make calls to jsp pages
+	if(myInt == 1){chartsInt=1;
+
+xmlhttp.open("GET","https://webdev.cs.uiowa.edu/jlmadden-tomcat7/callQuery.jsp?q="+str,true);}
+	
+	if(myInt == 2){chartsInt=2;
+		//if statement below checks if input is empty and returns to cancel the function
+		if(myDateArray.length==0 || myDateArray2.length ==0){alert("need to pick a range");return;}
+		xmlhttp.open("GET","https://webdev.cs.uiowa.edu/jlmadden-tomcat7/dateq.jsp?q="+str+"&r="+myDateArray[0]+"&s="+myDateArray2[0],true);
+		}
+
+	if(myInt == 3){chartsInt=2;xmlhttp.open("GET","https://webdev.cs.uiowa.edu/jlmadden-tomcat7/choropleth.jsp?q="+str,true);}
+	//need to handle when addRecord fails, new iterator to call function
+	//this function will not try a second time if insert fails
+	//it will return all points from input query regardless
+	if(myInt == 4){chartsInt=2;
+xmlhttp.open("GET","https://webdev.cs.uiowa.edu/jlmadden-tomcat7/addRecord.jsp?q="+str+"&r="+theLat+"&s="+theLon+"&t="+Number(wardType),true);
+
+	}        
+    
+if(myInt == 5){chartsInt=2; xmlhttp.open("GET","https://webdev.cs.uiowa.edu/jlmadden-tomcat7/showCharts.jsp?q="+str,true);
+	
+	} 
+if(myInt == 6){chartsInt=2; xmlhttp.open("GET","https://webdev.cs.uiowa.edu/jlmadden-tomcat7/animation.jsp?q="+str,true);
+	
+	} 
+
+    xmlhttp.send();
+
+    } 
+    //end of else block
+} 
+//end of function show user
+
+function makeAnimation(theStr){
+showUser(theStr,5);
+
+
+singleDay= 86400000;iR=1451692800000;
+
+myInterval = setInterval(function(){  
+d = new Date(iR);
+
+dDay=d.getDate();dMonth=d.getMonth();dYear=d.getFullYear();
+dMonthActual=dMonth+=1;
+ if(dMonthActual<=9){dMonthActual="0"+dMonthActual;}
+   if(dDay<=9){dDay="0"+dDay;}
+myDateString=dYear+"-"+dMonthActual+"-"+dDay;
+//document.getElementById("demo").innerHTML=d;
+
+//start of adding points
+var i;
+var geojsonMarkerOptions = {radius: 3,fillColor: "RGB(239,59,44)",color: "#000",weight: 1,opacity: 1,fillOpacity: 0.8};
+var thegeoj;
+for(e=0;e<myGeoA.length;e++){myGeoA[e].clearLayers();}
+myGeoA=[];
+//alert(myDateAnimation[0].substring(6,16) + ",length: " + myDateAnimation[0].substring(0,10).length + " next " + myDateString + ",length " + myDateString.length );
+for(dateJSP=0;dateJSP<myDateAnimation.length;dateJSP++){
+
+if(myDateAnimation[dateJSP].substring(6,16)==myDateString){
+
+//alert(myDateAnimation[dateJSP]+" : " +myDateString);
+	
+	
+		try {
+			var theP = JSON.parse(myArrayResponse[dateJSP]);
+			var thegeoj=L.geoJSON(theP, {pointToLayer: function (feature, latlng) {
+		        return L.circleMarker(latlng, geojsonMarkerOptions);
+		    }});
+			thegeoj.addTo(myGlobalArray[0]);
+			i = dateJSP;
+			myGeoA.push(thegeoj);
+			//get rid of try
+			} 
+		catch(err) {}
+	
+
+
+
+//clear the points and add the new ones
+}
+
+}
+if(iR==(1483228800000+singleDay)){myRemoveInterval();return;}
+iR+=singleDay;
+//jquery to push into div below animation button
+document.getElementById("animationDay").innerHTML=myDateString;
+document.getElementById("leftContainer").scrollTop=document.getElementById("leftContainer").scrollHeight;
+}, 250);
+   
+}
+
+function myRemoveInterval(){clearInterval(myInterval);document.getElementById("animationDay").innerHTML="";}
+function myArrayFun(theStr){
+	
+	var i;
+	var geojsonMarkerOptions = {radius: 3,fillColor: "RGB(239,59,44)",color: "#000",weight: 1,opacity: 1,fillOpacity: 0.8};
+	var thegeoj;
+	for(e=0;e<myGeoA.length;e++){myGeoA[e].clearLayers();}
+	myGeoA=[];
+	for(r=0;r<myArrayResponse.length;r++){
+		try {
+			var theP = JSON.parse(myArrayResponse[r]);
+			var thegeoj=L.geoJSON(theP, {pointToLayer: function (feature, latlng) {
+		        return L.circleMarker(latlng, geojsonMarkerOptions);
+		    }});
+			thegeoj.addTo(myGlobalArray[0]);
+			i = r;
+			myGeoA.push(thegeoj);
+			//get rid of try
+			} 
+		catch(err) {}
+	}
+
+showUser(theStr,5);
+}
+function makeCharts(str){
+//draggable needs window resize listener and window size
+//try{$("canvas").draggable({containment:"map"});}catch(err){}
+//$("canvas").resizable();
+var myCanvas = document.getElementById("canvas");var context = myCanvas.getContext('2d');context.clearRect(0,0,myCanvas.width,myCanvas.height);
+
+
+newStr = str.toLowerCase();
+
+//$(document.ready(function(){
+ var dataDef = { title: newStr[0].toUpperCase()+newStr.substring(1,str.length) + " Monthly Charts",
+                            xLabel: '', 
+                            yLabel: '',
+                            labelFont: '30pt Arial', 
+                            dataPointFont: '15pt Arial',
+			    renderTypes: [CanvasChart.renderType.lines, CanvasChart.renderType.points],
+			    
+                            dataPoints: [
+					
+					{ x: 'Jan', y: Number(chartsA[0]) }, 
+                                         { x: 'Feb', y: Number(chartsA[1]) }, 
+                                         { x: 'Mar', y: Number(chartsA[2]) }, 
+                                         { x: 'April', y: Number(chartsA[3]) },
+                                         { x: 'May', y: Number(chartsA[4]) },
+                                         { x: 'June', y: Number(chartsA[5]) }, 
+                                         { x: 'July', y: Number(chartsA[6]) },
+                                         { x: 'Aug', y: Number(chartsA[7]) },
+                                         { x: 'Sep', y: Number(chartsA[8]) }, 
+                                         { x: 'Oct', y: Number(chartsA[9]) },
+                                         { x: 'Nov', y: Number(chartsA[10]) }, 
+                                         { x: 'Dec', y: Number(chartsA[11])}]
+                           };
+		
+            CanvasChart.render('canvas', dataDef);
+	    cIter=2;toggleCharts();
+
+
+//});
+}
+function funId(){newCat = document.getElementById("myCat").value;
+showUser(newCat,2);
+}
+function myAnimation(){newCat = document.getElementById("myCat").value;
+showUser(newCat,6);
+}
+
+function dateFun(theDate){myDateArray.splice(0,1);myDateArray.push(theDate);}
+	
+function dateFun2(theDate){myDateArray2.splice(0,1);myDateArray2.push(theDate);}
+	
+function funTest2(){return;}
+
+function confirmFun(){myConfirm = document.getElementById("myCat").value;
+//alert(myConfirm);
+showUser(myConfirm, 1);}
+	
+	
+	function makeWard(){
+	myGeoWard = L.geoJSON(geojsonG, {
+		style:function(feature){
+		switch(feature.properties.ward){
+			case '10': case '15' : case '25' : case '35': case '40': case '19': case '44': case '29' : return{color: "RGB(8,48,107)", fillOpacity:'0.8'}; //good blue
+			case '6' : case '11': case '36': case '41': case '46' :case '13': case '42': return{color: "RGB(63,0,125)", fillOpacity:'0.8'};//good
+			case '3' : case '7' : case '17' : case '22' : case '27' : case '32' : case '50' :case '45':  return{color: "RGB(150,150,150)", fillOpacity:'0.8'};//good
+			case '4' : case '8' : case '23' : case '28' : case '33' : case '38': case '43': case '48' : case '34': case '31' : return{color: "RGB(127,0,0)", fillOpacity:'0.8'};//good red
+			case '9' : case '14' : case '24' : case '18': case '20' : case '39' : case '26' : case '2' : case '30' : case '49' : case '47' :return{color: "RGB(217,72,1)", fillOpacity:'0.8'};
+			case '21': case '16': case '12': case '5' : case '1' : case '37': return{color: "RGB(35,139,69)", fillOpacity:'0.8'};	//good		orange	
+				}						
+			},
+onEachFeature:function(feature,layer){
+
+layer.bindTooltip("Ward " + feature.properties.ward);}
+		});
+	}
+	
+	function togWards(){
+		if(wardIter==0){try{myGeoWard.clearLayers();}catch(err){}makeWard();$("#lc2").empty();}
+		if(wardIter%2==0){myGeoWard.addTo(myGlobalArray[0]);myGeoWard.bringToBack();wardIter++;return;}
+		if(wardIter%2!=0){myGeoWard.clearLayers();wardIter++; makeWard();$("#lc2").empty();}
+		}
+	
+	
+	//function is called by button choropleth
+	//gets my cat value and calls show user 
+	function choropleth(){showUser(document.getElementById("myCat").value,3);}
+	
+	//function to implement equal intervals classification
+	function choroFun2(theStrC){
+		try{for(e=0;e<myGeoA.length;e++){myGeoA[e].clearLayers();}
+		myGeoA=[];}
+		catch(err){}
+		try{myGeoWard.clearLayers();}catch(err){}
+		wardHoldA = []; countHoldA=[];
+		choroOptions = [];
+		for(c=0;c<choroA.length;c++){
+			choroOptions = choroA[c].split(":");
+			wardHoldA.push(choroOptions[0]);
+			countHoldA.push((choroOptions[1]/(wardPop[Number(choroOptions[0])]))*100000);
+			//alert(choroOptions[0] + " choro options: " + choroOptions[0].length + " wardPop: " + wardPop[Number(choroOptions[0])]);
+		}
+		var breakVal = (countHoldA[countHoldA.length-1]-countHoldA[0])/5;
+		//alert("the break value is: " + breakVal);
+		myGeoWard = L.geoJSON(geojsonG, {
+			style:function(feature){
+				
+				for(i=0;i<wardHoldA.length;i++){
+					//wardHoldS = toString(wardHoldA[i]);
+					//alert(typeof(wardHoldS));
+					//return;
+					//alert("the ward is: "+ wardHoldS+ " " + feature.properties.ward);
+					if(Number(feature.properties.ward)==Number(wardHoldA[i])){
+						//alert("the ward is: "+ wardHoldA[i]+ " " + feature.properties.ward);
+						if(countHoldA[i]<breakVal){return{fillColor: "RGB(251,106,74)",color: "RGB(1,1,1)", fillOpacity:'1'};}
+						if(countHoldA[i]>=breakVal && countHoldA[i]<breakVal*2){return{fillColor: "RGB(239,59,44)", color: "RGB(1,1,1)",fillOpacity:'1'};}
+						if(countHoldA[i]>=breakVal*2 && countHoldA[i]<breakVal*3){return{fillColor: "RGB(203,24,29)", color: "RGB(1,1,1)",fillOpacity:'1'};}
+						if(countHoldA[i]>=breakVal*3 && countHoldA[i]<breakVal*4){return{fillColor: "RGB(165,15,21)", color: "RGB(1,1,1)",fillOpacity:'1'};}
+						if(countHoldA[i]>=breakVal*4){return{fillColor: "RGB(103,0,13)", color: "RGB(1,1,1)",fillOpacity:'1'};}
+						
+					}
+
+				}   
+				//end of for loop
+				for(i=0;i<wardHoldA.length;i++){
+					if(Number(feature.properties.ward)!=Number(wardHoldA[i])){return{fillColor: "RGB(251,106,74)",color: "RGB(1,1,1)", fillOpacity:'1'};}
+				} 
+			},
+onEachFeature:function(feature,layer){layer.bindTooltip("Ward " + feature.properties.ward);}
+		}).addTo(myGlobalArray[0]);
+		showUser(theStrC,5);wardIter = 1;$("#lc2").empty().append("<strong style='color:white;'><center><h2>Legend</h2></center><ul><li><img src='myClass1.png' style='height:15px;width:50px;'>0-"+breakVal.toFixed(2)+"</li>"+
+							"<li><img src='myClass2.png' style='height:15px;width:50px;'>"+breakVal.toFixed(2)+"-"+(breakVal*2).toFixed(2)+"</li>"+
+							"<li><img src='myClass3.png' style='height:15px;width:50px;'>"+(breakVal*2).toFixed(2)+"-"+(breakVal*3).toFixed(2)+"</li>"+
+							"<li><img src='myClass4.png' style='height:15px;width:50px;'>"+(breakVal*3).toFixed(2)+"-"+(breakVal*4).toFixed(2)+"</li>"+
+							"<li><img src='myClass5.png' style='height:15px;width:50px;'>"+(breakVal*4).toFixed(2)+"-"+(breakVal*5).toFixed(2)+"</li>"+
+							"<li>Per 100,000 people</li></ul></strong><br>");
+		document.getElementById("leftContainer").style.overflow="auto";
+choroCheck = 2;
+}
+	
+	
+	
+	
+	//start of digitizing functions
+		var myMark; 
+		//the marker
+		var theWin; 
+		//the window	
+		var theLat; 
+		//lat
+		var theLon; 
+		//lon
+	
+var mEvent;	
+
+function dis2(){
+document.getElementById("map").style.cursor='';
+document.getElementById("btn4").value="Start Editing";
+myGlobalArray[0].removeEventListener('click');
+document.getElementById("btn4").removeEventListener('click',dis2);
+}
+			function startFun(){
+			//alert("28 feb");
+		document.getElementById("map").style.cursor='pointer';
+		document.getElementById("btn4").value="Stop Editing";
+		document.getElementById("btn4").addEventListener("click",dis2);
+
+	        var mEvent = myGlobalArray[0].on('click', function(e) {
+		myLatLon = e.latlng;
+		//alert(myLatLon);
+		myMark = L.marker(myLatLon);
+		myMark.addTo(myGlobalArray[0]);
+		//mA.push(myLatLon);
+		//if(mA.length>1){mA.splice(0,1);}
+		myForm(myLatLon);
+		
+		document.getElementById("btn4").value="Start Editing";
+		document.getElementById('map').style.cursor = '';
+		//alert(mLine.getLatLngs());
+		//for(i=0;i<mL.length;i++){alert(mL[i].getLatLngs()[1]);}
+		e.target.removeEventListener(e.type);dis2();
+		});
+		
+		}
+	
+	function myForm(theLatLon){
+		//alert(theLatLon.lat);
+		theLat = theLatLon.lat;
+		theLon = theLatLon.lng;
+		theWin = myMark.bindPopup("Add a new record to the database<br>\n"+
+		"<input id='formType' type='text' style='width:100%' value='Enter type of crime'><br>\n"+
+		"<input id='formType2' type='text' style='width:100%' value='Enter Ward'><br>\n"+ 
+		"Latitude: "+theLatLon.lat+"<br>Longitude: "+theLatLon.lng+"<br>\n"+
+		"<input type='button' value='Add record' onclick='addFun()'><br><input type='button' onclick='myCancel()' value='cancel'>");
+		
+		theWin.openPopup();
+		document.getElementById('map').style.cursor = '';
+		//theWin.closePopup();
+		//theParam.clearLayers();
+		wardType = document.getElementById("formType2").value;
+		}
+		
+var wardType;	
+				function addFun(){
+		
+		//this function needs to remove the marker
+		//call showUser(crime type ,4)
+		//jsp needs to insert records and just draw based on current selection draw 
+		//want the page to simply draw all relevant crimes, those with same category as the input
+		
+		
+		try{alert(document.getElementById("formType").value);}
+		catch(err){}
+		theWin.closePopup();myGlobalArray[0].removeLayer(myMark);
+		showUser(document.getElementById("formType").value,4);
+		}
+		
+		
+		function myCancel(){theWin.closePopup();myGlobalArray[0].removeLayer(myMark);}
+		
+		
+		function clearPoints()
+		{
+			
+			try{for(e=0;e<myGeoA.length;e++){myGeoA[e].clearLayers();}
+			myGeoA=[];}
+			catch(err){}
+			
+		}
+		
+	  $( function() {$( "#datepicker" ).datepicker();} );
+	  $( function() {$( "#datepicker2" ).datepicker();} );
+
+
+
+function toggleCharts(){if(cIter==1){$("canvas").hide();cIter=2;return;}
+
+if(cIter==2){$("#canvas").show();cIter=1;return;}
+
+}
+
+var iPadInt=1;
+
+
+
+//map needs to be loaded at zoom 11 wherever possible
+//height below 770 always require loading at zoom 10
+//resizing not a concern
+//loading must be correct
+//onload if window is below certain threshold, load without layer displayed
+
+
+var winArray=[];
+var myNumLL= -87.793776;
+function setExtent(theOption){
+theWinH2 = window.innerHeight;theWinW=window.innerWidth;
+//document.getElementById("header").innerHTML=theWinW;
+if(theOption==1){
+
+if(theWinW<=1500){myGlobalArray[0].setView(new L.LatLng(41.83808, -87.77596),11);}
+if(theWinW<=1143){myGlobalArray[0].setView(new L.LatLng(41.83075, -87.83363),10);}
+
+if(theWinW>1143){myGlobalArray[0].setView(new L.LatLng(41.83808, -87.77596),11);}
+if(theWinW>1500){myGlobalArray[0].setView(new L.LatLng(41.83969, -87.663776),11);}
+theOption=2;
+}
+
+if(theOption==2){
+if(theWinW<=1500){
+document.getElementById("canvas").style.top="15%";
+document.getElementById("canvas").style.width="300px";document.getElementById("canvas").style.height="300px";}
+if(theWinW<=1825){document.getElementById("canvas").style.right="5%";}
+if(theWinW<=1599){document.getElementById("canvas").style.right="2%";}
+if(theWinW<=1200){document.getElementById("canvas").style.visibility="hidden";$("#btn6").hide();}
+if(theWinW>1200){document.getElementById("canvas").style.visibility="visible";$("#btn6").show();}
+if(theWinW>1599){document.getElementById("canvas").style.right="5%";}
+if(theWinW>1825){document.getElementById("canvas").style.right="10%";}
+if(theWinW>1500){document.getElementById("canvas").style.top="20%";
+document.getElementById("canvas").style.width="500px";document.getElementById("canvas").style.height="500px";
+}
+
+
+}
+
+}
+</script>
+
+</head>
+
+
+<body onload="myFun();togWards();toggleCharts();setExtent(1);" onresize="setExtent(2);">
+<div id="header" onclick="funWinSize();"><strong><center><h1>Chicago Crimes</h1></center></strong>
+</div>
+
+
+<div id="map" data-dojo-type="dijit/layout/ContentPane" 
+data-dojo-props="region:'center'" style="z-index:0;"></div>
+        
+<div id="leftContainer" >
+<center>
+<br>
+
+ <select id="myCat">
+        <option value="categories">Categories</option>
+        <option value="HOMICIDE">Homicide</option>
+        <option value="PROSTITUTION">Prostitution</option>
+        <option value="ARSON">Arson</option>
+	<option value="GAMBLING">Illegal Gambling</option>
+	<option value="STALKING">Stalking</option>
+	<option value="CRIMINAL TRESPASS">Trespassing</option>
+    </select>     
+    
+    <input type="button" onclick="confirmFun()" value="Do Query">
+    <br><br>
+	<center>
+     <input type="text" name="date" id="datepicker" placeholder="Pick a Start Date" onchange="dateFun(this.value)" >
+     <input type="text" name="date2" id="datepicker2" placeholder="Pick an End Date" onchange="dateFun2(this.value)" ></center>
+     <br><br>
+	 
+	
+	<input type="button" id="btn1" onclick="funId()" value="Date Query">
+	<br><br>
+	<input type="button" id="btn2" onclick="choropleth()" value="Choropleth">
+	<br><br></center><div id="lc2"></div><center>
+	<input type="button" id="btn3" onclick="togWards()" value="Toggle Wards">
+	<br><br>
+	<input type="button" id="btn4" onclick="startFun()" value="Start Editing">
+	<br><br>
+	<input type="button" id="btn5" onclick="clearPoints()" value="Clear Points">
+	<br><br>
+	
+	<input type="button" id="btn7" onclick="myAnimation()" value="Animation">
+	<br><div id="animationDay" style="color:white;"></div><br>
+	<input type="button" id="btn6" onclick="toggleCharts()" value="Toggle Charts">
+		
+</center>
+
+
+
+
+
+</div>
+	
+    <canvas id="canvas" width="800" height="600"></canvas>
+        
+   <div id="footer"></div>
+   
+
+</body>
+</html>
+
+
