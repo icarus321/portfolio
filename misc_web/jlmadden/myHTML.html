@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- saved from url=(0014)about:internet -->
+  <title>James Madden</</title>
+
+  <!-- Patch to make semantic elements work in IE8 and below. -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link rel="stylesheet" href="myCSS.css">
+
+
+
+  
+ <link rel="stylesheet" href="http://js.arcgis.com/3.14/esri/css/esri.css">
+  <script src="http://js.arcgis.com/3.14/"></script> 
+  
+  
+  
+  
+  
+  
+  
+  
+  <script>
+      var map, tb;
+
+      require([
+        "esri/map", "esri/toolbars/draw",
+        "esri/symbols/SimpleMarkerSymbol", "esri/symbols/SimpleLineSymbol",
+        "esri/symbols/PictureFillSymbol", "esri/symbols/CartographicLineSymbol", 
+        "esri/graphic", 
+        "esri/Color", "dojo/dom", "dojo/on", "dojo/domReady!"
+      ], function(
+        Map, Draw,
+        SimpleMarkerSymbol, SimpleLineSymbol,
+        PictureFillSymbol, CartographicLineSymbol, 
+        Graphic, 
+        Color, dom, on
+      ) {
+        map = new Map("mapDiv", {
+          basemap: "streets",
+          center: [-25.312, 34.307],
+          zoom: 3
+        });
+        map.on("load", initToolbar);
+
+        // markerSymbol is used for point and multipoint, see http://raphaeljs.com/icons/#talkq for more examples
+        var markerSymbol = new SimpleMarkerSymbol();
+        markerSymbol.setPath("M16,4.938c-7.732,0-14,4.701-14,10.5c0,1.981,0.741,3.833,2.016,5.414L2,25.272l5.613-1.44c2.339,1.316,5.237,2.106,8.387,2.106c7.732,0,14-4.701,14-10.5S23.732,4.938,16,4.938zM16.868,21.375h-1.969v-1.889h1.969V21.375zM16.772,18.094h-1.777l-0.176-8.083h2.113L16.772,18.094z");
+        markerSymbol.setColor(new Color("#00FFFF"));
+
+        // lineSymbol used for freehand polyline, polyline and line. 
+        var lineSymbol = new CartographicLineSymbol(
+          CartographicLineSymbol.STYLE_SOLID,
+          new Color([255,0,0]), 10, 
+          CartographicLineSymbol.CAP_ROUND,
+          CartographicLineSymbol.JOIN_MITER, 5
+        );
+
+        // fill symbol used for extent, polygon and freehand polygon, use a picture fill symbol
+        // the images folder contains additional fill images, other options: sand.png, swamp.png or stiple.png
+        var fillSymbol = new PictureFillSymbol(
+          "images/mangrove.png",
+          new SimpleLineSymbol(
+            SimpleLineSymbol.STYLE_SOLID,
+            new Color('#000'), 
+            1
+          ), 
+          42, 
+          42
+        );
+
+        function initToolbar() {
+          tb = new Draw(map);
+          tb.on("draw-end", addGraphic);
+
+          // event delegation so a click handler is not
+          // needed for each individual button
+          on(dom.byId("info"), "click", function(evt) {
+            if ( evt.target.id === "info" ) {
+              return;
+            }
+            var tool = evt.target.id.toLowerCase();
+            map.disableMapNavigation();
+            tb.activate(tool);
+          });
+        }
+
+        function addGraphic(evt) {
+          //deactivate the toolbar and clear existing graphics 
+          tb.deactivate(); 
+          map.enableMapNavigation();
+
+          // figure out which symbol to use
+          var symbol;
+          if ( evt.geometry.type === "point" || evt.geometry.type === "multipoint") {
+            symbol = markerSymbol;
+          } else if ( evt.geometry.type === "line" || evt.geometry.type === "polyline") {
+            symbol = lineSymbol;
+          }
+          else {
+            symbol = fillSymbol;
+          }
+
+          map.graphics.add(new Graphic(evt.geometry, symbol));
+        }
+      });
+    </script>
+    
+
+
+
+
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("h6").hide();
+    $("button1").click(function(){
+        $("h6").toggle();
+    });
+});
+</script>
+	
+	
+
+
+	
+
+<script>
+$(document).ready(function(){
+    $("p65").show();
+    $("p67").hide();
+    $("button2").click(function(){
+	$("p65").toggle();
+        $("p67").toggle();
+    });
+});
+</script>	
+	
+	
+	
+	
+	
+
+</head>
+
+<body>
+
+<header class="siteHeader">
+<img src="energy.jpg">
+ 
+</header>
+
+
+
+
+
+
+<aside class="NavSidebar">
+ 
+ 
+
+   
+  
+  
+
+ <nav>
+
+   <p>
+      <center><b>My Bio</b><br>Computer Mapping Specialist<br>Second Year Graduate Student<br>Diverse Experience with Spatial Data</center>
+	  
+   </p>
+  <br><br>
+  
+  <p>
+      <center><b>Universities Attended</b><br> 
+	 <a href="http://www.usma.edu"><font color="white">WestPoint</font><a><br><a href="http://www.iastate.edu"><font color="white">Iowa State</font><a><br>
+	<a href="http://www.uiowa.edu"> <font color="white">University of Iowa</font><a> 
+
+	  
+	  </center>
+	  
+   </p>
+  <br><br>
+  
+  <p>
+      <center><b>Research Interests</b><br>Mobile GIS<br>Automated GIS<br>Data Harvesting</center>
+	  
+   </p>
+  
+  
+  
+  <p>
+      <center><b>Photo</b></center>
+	  
+   </p>
+   
+   <center>
+    <img src="aliens.JPG" alt="Roswell, NM"></center>
+  
+   <br><br>
+  
+  
+  
+  <!--
+  
+      Notes on the development of the page.  This page consists of custom CSS and CSS3.  All frames with user functionality or display
+	  are contained in a body container. There are four frames or classes within the body container.  
+	  The first class is the header class.
+      Inside the header class is a custom image I created with Microsoft paint.  The image height and width was set to the value assigned to the
+      class height and width.  
+	  The second class is the NavSidebar class.  The text with my information is included in the NavSidebar class.
+	  9 codes were used inside the NavSidebar container.  The first two deal with the links to my academic institutions and a picture.  
+	  Next are a set of codes dealing with a mouse click and mouse over command.  Below that is a separate div container that holds my drawing tools. I have also included a
+	  custom basemap toggle.  On the right of the NavSidebar class you will see scroll bar.  Adding the scroll bar is very simple and gives
+	  you added functionality.  Lastly, I have included what are actually two codes performing one function for the user.  If you scroll down to the
+	  bottom of the container you will see a button that gives you the option to toggle text off and on.  This is a simple example of a 
+	  powerful function.  What allows me to do toggle the text off and on is a set of jquery commands.  Again, two codes were used to give the user
+	  the text toggle function.  Both codes are essentially the same with one word changed.  The first word is "hide" and the second is "toggle".
+	  By putting the hide command in first the text loads hidden on the page.  This ability is essential when building professional pages.
+	  Often times we will use this type of expression to show different categories of a users homepage such as "Friends", "Updates", and "Messages"
+	  without having to load an entirely new html document.  
+	  Next we have the content class container.  There is really only one thing going on in this class
+	  container.  As you can see, my page has a very large map on it.  This map was acquired from ESRI and a link to their respective css page is included.
+	  ESRI has their javascript and css setup so that it is necessary to include links to their css page.  
+	  Lastly, we have a footer class container.  The footer consists of custom text designed in the css sheet and text information telling the user the last time the page was updated.	  
+	  
+	  -->
+  
+  <h3>
+<p5 onclick="myFunction1()"><center>Why is this text Gold? Click to find out.</center>
+</p5>
+<script> function myFunction1(){alert("I made the text gold using the aside.NavSidebar h3 in my css3 sheet. Anytime I use h3 inside this class my text will appear gold");}</script>
+</h3>
+  </nav>
+  <br>
+  <section>
+    <h22>
+      <p6 onmouseover="myFunction()">
+        <font color="green"><center>Mouse over this text to find out why it's green!</center></font>
+      </p6>
+	  
+	  
+   </h22>
+            <script> function myFunction(){alert("I made the text green using the font tag in my html sheet.");}</script>
+    
+
+	 
+  
+  
+
+  </section>
+
+   <br>
+  
+  <center>
+  <div id="info">
+     Select a shape then draw on map to add graphic<br>
+      <button id="Point">Point</button>           <button id="Polyline">Polyline</button>
+       
+      
+      <button id="Polygon">Polygon</button>
+      <br><br>
+    </div>
+  </center>
+   <br><br> 
+  
+<center><button><button2>Click To See My Map</button2></button></center><br>
+<br>
+
+<br><br><br><br> <br><br><br><br><br> 
+   <br><br><br><br><br> <br><br><br><br><br> <br><br><br><br><br> <br><br><br><br><br> <br><br><br><br><br><center>As you can see, my scroll bar works</center>
+  
+</aside>
+
+
+
+
+
+<main>
+
+<article class="Content">
+<p65><center><p99>Education</p99><br><p98>I hold a Bachelor's of Science Degree in 
+Environmental Science and a Graduate Certificate in GIS.  I received my degree and certificate from
+ Iowa State University.  I also attended the United States Military Academy at West Point.  I have
+  conducted research using LANDSAT imagery that was used to estimate trophic states of various lakes
+   in the state of Iowa.  Although my research replicated steps done by other professionals, I
+    was able to produce correlations between actual measurements and estimates of 99%.  Traditionally,
+	 correlations of 77%-83% were considered acceptable.  The higher correlations could be attributed to
+	  a number of reasons.  First, I used a newer satellite that was in its first year of
+	   operation so the satellite might be better suited to the research.  The satellite I used
+	    was LANDSAT 8.  Additionally, the year I estimated values for could have had more homogeneous
+		 relationships between the actual and estimated values.  One other reason could be that the equation
+		  I used was only in its first year of operation.  For the earlier satellites a standard equation was used for every year.  Perhaps
+		  the USGS should produce an equation each year.  Nonetheless, my research was notable but
+		  further work must be done before any conclusions can be made.</p98><br><br><p97>Undergraduate GPA: 3.2 <br> Graduate GPA: 3.6</p97> 
+		  
+		  <br><br><p99>Work Experiences</p99><br><p98>I have worked in a number of different industries in my short career.  I served in the US Military for five years.  During
+		   my time in the military I served on a route clearance team in Baghdad, Iraq conducting EOD missions.  My unit intercepted over 700 improvised explosive devices and left the theatre 
+with more bombs disposed than any unit up to the time we left.  I was also fortunate enough to serve as a Cadet at West Point.  West Point was a awesome experience and introduced me to cutting
+edge academics.  I have also done research work at the academic level and worked in a number of environmental areas.  I have worked for commercial environmental consultants and also in the
+ non profit sector.  I enjoy environmental work and I love working with computers.</p98><br><br><p97>Employers:<br>US ARMY, Iowa State University, Trileaf Corporation, University of Iowa</p97><br><br>
+<p99>Hobbies</p99><br><p98>I enjoy all sorts of activities.  I love to run and hike.  In the past I have completed a half marathon and climbed Mount Everest.  I often go on vacation to 
+Colorado where I enjoy white water rafting and just being out in nature.  Although you can find me outside most of the time I also enjoy music.  I play the guitar and I cherish good music.
+ My favorite artists are Jeff Beck, Tommy Emmanuel and Bob Dylan.  I listen to all sorts of music but I love jazz and folk music the most.  I even get into old 19th Century wagon music from
+  time to time.  Throw a fiddle in a song I will love it.</p98><br><br><p97>Favorite Song:<br>A Day In The Life by the Beatles</p97><br><br><p99>Places Lived</p99><br>
+<p98> I have lived all over the world.  I am originally from Virginia.  I was born in Hopewell, Virginia.  I moved to Germany when I was young and lived there for the last years of the Cold
+ War.  My family traces it routes back to Italy and Ireland.  My paternal grandparents are first and second generation Americans.  They settled in NYC and most of my family still lives there.
+I have also lived in New York and in New Jersey for brief periods of my life.  Iowa is currently home for me and I love it here.</p98><br><br><p97>Places I Want To Visit:<br>
+London, Africa, China and Outer space 
+   </center> <figure class="FloatFigure">
+   <img src="guitar.jpg" alt="Human skull" />
+   <figcaption>-Tommy Emmanuel</figcaption>
+</figure> <figure class="FloatFigure1">
+   <img src="buffalo.jpg" alt="Human skull" />
+   <figcaption>- My Beast in Iraq</figcaption>
+</figure>  </p65>
+<body class="claro">
+  <p67><div id="mapDiv"></div></p67>
+</body>
+
+
+</article>
+
+</main>
+
+
+<footer>
+<center><p>My Page Was Last Updated September 12, 2015</p></center>
+
+
+
+</footer>
+  
+</body>
+
+
+
+
+</html>

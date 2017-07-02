@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- saved from url=(0014)about:internet -->
+  <title>Lab 5</title>
+
+  <!-- Patch to make semantic elements work in IE8 and below. -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  
+<style>
+body {
+  font-size: x-large;
+  font-family: Cambria;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  
+  background-color:gold;
+}
+
+</style>
+</head>
+
+<body>
+
+<embed src="mySVG.svg" width="100%" height="100%" style="position: absolute; z-index:-1;"/>
+
+<form id="myForm" value="transparent" style="margin-left: 10cm; margin-top: 8cm;position:absolute" action="" method='POST'>
+  <p><i>Please Contact Us</i></p>
+
+    
+      <label for="firstname">First Name</label><br>
+      <input id="firstname" required><br>
+	   <label for="lastname">Last Name</label><br>
+      <input id="lastname" required><br>
+	   <label for="myAge">Age</label><br>
+      <input id="myAge" type="number" min="0" max="120" step="1" required><br>
+	  <label for="email">Email</label><br>
+      <input id="email" type="email" required><br>
+	   <label for="refer">How did you here about us</label><br>
+      <select id="refer"><br>
+	   <option value="yahoo">Yahoo</option><br>
+        <option value="google">Google</option><br>
+		 <option value="other">Other</option><br>
+      </select><br>
+	   <label for="contactDate">When would you like to be contacted:</label><br>
+      <input id="contactDate" type="date" required><br>
+	<input type="submit" value="Submit Application"></p>
+</form>
+
+</body>
+
+</html>

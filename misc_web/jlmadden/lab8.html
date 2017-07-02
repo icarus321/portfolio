@@ -1,0 +1,125 @@
+<html>
+<head> 
+<script>
+function drawHeart(x, y) {
+  //copy the function from book code, chapter 9
+  context.beginPath();
+  context.moveTo(x, y);
+  context.bezierCurveTo(x, y - 40, x - 45, y - 40, x - 48, y);
+  context.bezierCurveTo(x - 45, y + 30, x, y + 40, x, y + 80);
+  context.bezierCurveTo(x, y + 90, x + 45, y + 40, x + 45, y);
+  context.bezierCurveTo(x + 45, y - 30, x, y - 30, x, y);
+  context.closePath();
+}  
+function randomFromTo(from, to) {
+  
+return Math.floor(Math.random() * (to - from + 1) + from);
+}
+</script>  
+ </head>
+<body align="center">
+<canvas id="myCanvas" width="1000" height="1000" style="border:3px solid #c3c3c3;">
+Your browser does not support the canvas element.
+</canvas>
+<script>
+var canvas=document.getElementById("myCanvas");
+   var context=canvas.getContext("2d");  
+   context.beginPath();
+context.arc(700, 75, 50, 0, 2 * Math.PI);
+context.fillStyle="orange";
+context.lineWidth = 10;
+context.stroke();
+context.fill(); 
+  context.beginPath();
+    context.save();
+	context.closePath();
+context.beginPath();
+context.lineWidth = 3;
+context.fillStyle="lightgreen";
+context.moveTo(300, 150);
+context.lineTo(450, 300);
+context.lineTo(150, 300);
+context.lineTo(300, 150);
+context.fill();
+context.stroke();
+context.save();
+context.closePath();
+context.lineWidth = 1;
+var deg25 = randomFromTo(0, 25);
+context.beginPath();
+context.save();
+context.font = "50px Verdana";
+var gradient = context.createLinearGradient(0, 0, canvas.width, 0);
+gradient.addColorStop("0", "magenta");
+gradient.addColorStop("0.5", "blue");
+gradient.addColorStop("1.0", "red");
+context.strokeStyle = gradient;
+ context.translate(50, 400);
+ context.rotate(deg25 * Math.PI/180);  
+context.strokeText("Welcome to my html5 canvas page",0,0);
+context.restore();
+context.save();
+context.closePath();
+context.beginPath();
+context.moveTo(300, 700);  
+context.lineTo(450, 850);
+context.lineTo(150, 850);
+context.lineTo(300, 700);
+context.globalAlpha=0.2;
+context.fillStyle = "red";
+  context.fill();  
+context.stroke();
+context.save();
+context.closePath();
+context.beginPath();
+context.moveTo(450, 700);  
+context.lineTo(600, 850);
+context.lineTo(300, 850);
+context.lineTo(450, 700);
+context.fillStyle = "blue";
+context.fill();
+context.stroke();
+context.save();
+context.closePath();
+ context.beginPath();
+ context.globalAlpha=1;
+    context.strokeStyle = 'black';
+	context.lineWidth = 10;
+    context.strokeRect(700,800,100,150);
+    context.save();
+context.closePath();
+  context.beginPath();
+    context.fillStyle = 'green';
+    context.fillRect(700,800,100,150);
+    context.save();
+context.closePath();
+      var deg = randomFromTo(0, 360);	
+	context.save();
+	context.translate(700, 230);
+  context.rotate(deg * Math.PI/180);
+drawHeart(0, 0);  
+  gradient = context.createRadialGradient(0, 0, 10, 0, 0, 50);
+  gradient.addColorStop("0","magenta");
+  gradient.addColorStop(".25","blue");
+  gradient.addColorStop(".50","green");
+  gradient.addColorStop(".75","yellow");
+  gradient.addColorStop("1.0","red");
+    context.fillStyle = gradient;
+   context.fill();
+context.restore();
+context.save();
+context.closePath();
+ context.beginPath();
+ var gradient1 = context.createRadialGradient(75, 50, 5, 90, 60, 100);
+   gradient1.addColorStop(0, "orange");
+    gradient1.addColorStop(0.25, "red");
+    gradient1.addColorStop(0.50, "yellow");
+	 gradient1.addColorStop(0.75, "green");
+	  gradient1.addColorStop(1, "purple");
+	  context.fillStyle = gradient1;
+    context.fillRect(10,10,150,100);
+    context.save();
+context.closePath();
+ </script>
+</body>
+</html>

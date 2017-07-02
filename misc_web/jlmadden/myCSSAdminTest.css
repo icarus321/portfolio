@@ -1,0 +1,31 @@
+html, body{height:100%;width:100%;}
+
+body{height:100%;width:100%;background-color:RGB(237,122,43);}
+
+#tHist{cursor:pointer;color:RGB(255,255,255);position:relative;}
+
+#myCat{cursor:pointer;-webkit-appearance: none; text-align:center;text-align-last:center;-moz-appearance:none;border:0px;background-color:RGB(91,155,213);color:RGB(255,255,255);position:relative;top:-10px;}
+
+#aInfo{cursor:pointer;color:RGB(255,255,255);position:relative;top:-20px;}
+
+#mapTog{cursor:pointer;color:RGB(255,255,255);position:relative;top:-25px;}
+
+
+
+#myDiv{position:absolute;left:5%;background-color:RGB(91,155,213);width:13%;height:20%;border-radius:10px;color:RGB(255,255,255);overflow:auto;}
+
+#myDiv2{border-style:solid;color:white;position:relative;left:25%;background-color:RGB(91,155,213);width:50%;height:65%;border-radius:10px;color:RGB(255,255,255);}
+
+table{outline:3px solid white;color:white;}
+
+h1,#myDiv{border: 3px solid white;}
+
+h1{background-color:RGB(91,155,213);top:20px;max-width:23%;border-radius:10px;color:RGB(255,255,255)}
+
+td,tr,th{outline:1px solid white;color:white;}
+
+select::-ms-expand{display:none;}
+
+
+@media(max-width:600px){h1{max-width:44%;}}
+

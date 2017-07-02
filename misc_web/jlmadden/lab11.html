@@ -1,0 +1,128 @@
+<!DOCTYPE HTML> 
+<html> 
+<head>  <title>Canvas Example</title>
+</head> 
+ <body style="background-color: orange"> 
+ <style>
+ canvas{
+ border: 5px solid green;
+ }
+ </style>
+ 
+ <br><br>
+ <center><h1>Welcome to my Canvas Demonstration</h1>
+ <h2>Created by: James Madden</h2>
+<canvas id="this_canvas" height="80%" width="80%" style="border-radius: 25px 25px 25px 25px" ></canvas> </center>
+<script> 
+ var context = document.getElementById('this_canvas').getContext('2d');
+ var my_image=new Image();
+ my_image.src="ball.gif";
+ bounce = -1;
+function ball(){
+
+//places the ball at a random area of the canvas
+
+	this.x=Math.random()*context.canvas.width;
+	this.y=Math.random()*context.canvas.height;
+	
+
+	this.vx=5*Math.random();
+	this.vy=5*Math.random();
+	
+	 this.radius = 50*Math.random()+5;
+this.color = getRandomColor();
+	 this.move=ball_move;
+	this.draw=ball_draw;
+	
+}
+
+//function below was taken from the http://stackoverflow.com/questions/1484506/random-color-generator-in-javascript
+//lots of variations of this function online
+//however, I had to make a few changes in order to get it to work with this page
+function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+function ball_move(){
+
+	this.x+=this.vx;
+	this.y+=this.vy;
+	//this.vx+=(Math.random()-0.5)*0.1;
+	//this.vy+=(Math.random()-0.5)*0.1;
+	
+	if( this.x-this.radius<0) {this.x = this.radius; this.vx *= bounce;} //this.vx=-this.vx; 
+if(this.y-this.radius<0) {this.y = this.radius;  this.vy *= bounce;} //this.vy=-this.vy; 
+
+
+
+if(this.x+this.radius>context.canvas.width) {this.x = context.canvas.width-this.radius;  this.vx *= bounce;}//this.vx=-this.vx; 
+if(this.y+this.radius>context.canvas.height) {this.y = context.canvas.height-this.radius;  this.vy *= bounce;}//this.vy=-this.vy; 
+	
+}
+
+
+
+function ball_draw(){   
+	context.beginPath();
+
+
+context.arc(this.x, this.y, this.radius, 0, 6.28, false);
+context.fillStyle = this.color;
+context.fill();
+context.stroke();
+context.closePath();
+//context.drawImage(my_image,this.x,this.y,40,40);
+	
+		
+}
+
+
+var ball_array=new Array();
+ function begin(){
+	for(var i=0;i<10;i++){
+	 var temp=new ball();
+	 ball_array.push(temp);
+	 }
+
+}
+
+function going(){
+
+     // erase ball
+	context.beginPath();
+	context.fillStyle = 'red';
+	context.rect(0,0,context.canvas.width,context.canvas.height);
+	 
+	context.fill();
+	
+	
+  
+     //move
+     var x;
+     for(x in ball_array){		
+		ball_array[x].move();
+		
+		ball_array[x].draw();
+	}
+
+}
+
+ function resize_can(){
+	context.canvas.width=window.innerWidth*.8;
+	context.canvas.height=window.innerHeight*.8;
+}
+
+window.onresize=resize_can;
+onLoad=resize_can();
+ 
+onLoad=begin();
+setInterval(going,10);
+ 
+</script> 
+ 
+ </body> 
+</html>

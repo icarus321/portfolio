@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+
+<style>
+input{
+  width: 249px;
+}
+label{
+width: 90px;}
+
+</style>
+  <meta charset="utf-8">
+  <title>jQuery UI Tabs - Default functionality</title>
+    
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/sunny/jquery-ui.css">
+  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script src="lab7.js"></script>
+ 
+  
+
+
+
+</head>
+<body>
+ 
+<div id="tabs">
+  <ul>
+   <li><a href="#tabs-1"> Preloaded: Our Club</a></li>
+    <li><a href="link1.html">Ajax: Tab 1</a></li>
+    <li><a href="link2.html">Ajax: Broken Link</a></li>
+  </ul>
+ 
+  <div id="tabs-1">
+  <p align="left">Four score and seven years ago our fathers brought forth on this continent, 
+  a new nation, conceived in Liberty, and dedicated to the proposition that all 
+  men are created equal.  Now we are engaged in a great civil war, testing whether
+  that nation, or any nation so conceived and dedicated, can long endure. We are 
+  met on a great battle-field of that war. We have come to dedicate a portion of 
+  that field, as a final resting place for those who here gave their lives that 
+  that nation might live. It is altogether fitting and proper that we should do this.
+  But, in a larger sense, we can not dedicate -- we can not consecrate -- we can not 
+  hallow -- this ground. The brave men, living and dead, who struggled here, have 
+  consecrated it, far above our poor power to add or detract. The world will little 
+  note, nor long remember what we say here, but it can never forget what they did here. 
+  It is for us the living, rather, to be dedicated here to the unfinished work which they 
+  who fought here have thus far so nobly advanced. It is rather for us to be here dedicated 
+  to the great task remaining before us -- that from these honored dead we take increased 
+  devotion to that cause for which they gave the last full measure of devotion -- that we here 
+  highly resolve that these dead shall not have died in vain -- that this nation, under God, 
+  shall have a new birth of freedom -- and that government of the people, by the people, for 
+  the people, shall not perish from the earth.<br><br>- Abraham Lincoln</p>
+  <center><img src="aliens.JPG" width="150" height="113" style="opacity:0.5;"></center>
+  </div>
+ 
+
+  
+</div>
+ <br>
+ <br>
+ <div id="tabs1" style="background-color: #feeebd; padding: 1em 2.2em;
+	border: 1px solid #494437;
+	border-top-left-radius: 8px;
+border-top-right-radius: 8px;
+border-bottom-left-radius: 8px;
+border-bottom-right-radius: 8px;
+font-family:Segoe UI;
+color: rgba(0, 0, 0, 0.8);
+font-size: 1.1em;
+	overflow: auto;">
+	
+	
+	
+	
+	<form id="zooKeeperForm" action ='#' onsubmit="return askServer()" >
+  <p><i><center>Please complete the form.</center></i></p>
+  
+  
+  <fieldset>
+  
+  
+
+	<center><label for="name" style="display:inline-block;">Name</label>
+      <input id="name" name='name' placeholder="Enter your name" autofocus required><br>
+	 <label for="email" style="display:inline-block;">Email</label>
+      <input id="email" name='email' type="email" required><br>
+      <label for="datepicker" style="display:inline-block;">Birth Date</label>
+	  <input type="text" name="datepicker" id="datepicker" required>
+      
+</center>
+     </fieldset>
+  
+ <br>
+  
+  <center>
+  
+  <input type="submit" style="background-color:#FECE2F; opacity:0.7; font-weight: bold; height: 55px; font-size:large;border-top-left-radius: 8px;
+border-top-right-radius: 8px;
+border-bottom-left-radius: 8px;
+border-bottom-right-radius: 8px;"><br>
+<p id ='result'></p></center>
+  
+ 
+</form></div>
+
+  
+ 
+</body>
+</html>

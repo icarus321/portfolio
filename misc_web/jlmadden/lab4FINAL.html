@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- saved from url=(0014)about:internet -->
+  <title>James Madden</</title>
+
+  <!-- Patch to make semantic elements work in IE8 and below. -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link rel="stylesheet" href="lab4.css">
+
+
+
+  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+	
+	
+<script>
+
+
+
+var countCor = 0;
+var questions = ["Who won the first world series?", "Who won the first super bowl?", "Who won the first NBA title?"]
+var answers = ["Redsox", "Packers", "Warriors"]
+function askQuestion() {
+
+for (i = 0; i<questions.length; i++){
+    var response = prompt(questions[i]);
+    var response1 = (response.trim());
+	if ((response1.toLowerCase()) == (answers[i].toLowerCase())) {
+	countCor++
+        
+        alert("Correct");
+    }
+	
+	if ((response1.toLowerCase()) != (answers[i].toLowerCase())) {
+	
+        alert("Wrong");
+    }
+	
+	
+	
+	
+	
+	
+	}
+	document.getElementById("responseDIV").innerHTML =
+        "You answered " + countCor + " out of 3 questions correct";
+}
+
+
+</script>
+	
+
+	
+	
+	
+
+	
+
+
+
+	
+
+</head>
+
+<body onload="askQuestion()">
+
+
+<header>
+<center><p><b><br><br><br>Historical Sports Trivia Game</b></p></center>
+</header>
+
+
+
+ 
+
+
+   
+  
+ 
+
+ 
+
+
+
+
+<article class="Content">
+
+<br><br><center>
+<h1><font color="white">
+<p id="responseDIV"></p></font></h1></center>
+
+
+
+
+
+
+
+  
+ 
+
+
+
+
+</article>
+
+
+
+
+<footer><br>
+ 
+
+
+</footer>
+  
+</body>
+
+
+
+
+</html>

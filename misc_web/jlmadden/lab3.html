@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- saved from url=(0014)about:internet -->
+  <title>James Madden</</title>
+
+  <!-- Patch to make semantic elements work in IE8 and below. -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link rel="stylesheet" href="lab3.css">
+
+
+
+  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+	
+	
+<script>
+function CalculateTargetHeartRate(sunday, monday, tuesday, wednesday, thursday, friday, saturday, resultElementName) {
+    
+sunday = Number(sunday)
+monday = Number(monday)
+tuesday = Number(tuesday)
+wednesday = Number(wednesday)
+thursday = Number(thursday)
+friday = Number(friday)
+saturday = Number(saturday)
+   
+
+   var resultElement = document.getElementById(resultElementName)
+   resultElement.innerHTML = Math.round((100*(sunday+monday+tuesday+wednesday+thursday+friday+saturday)/7))/100
+}
+</script>
+	
+<style>
+label {
+  display: inline-block;
+  width: 70px;
+  position: float;
+}
+</style>
+	
+	
+	
+
+	
+
+
+
+	
+
+</head>
+
+<body>
+
+
+<header>
+<center><p><b><br><br><br>Average Number of Hours of Sleep</b></p></center>
+</header>
+
+
+<br>
+<center><div id="fb-root"></div></center>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div class="fb-like" data-href="http://homepage.divms.uiowa.edu/~jlmadden/lab3.html" data-width="20" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+ 
+
+
+   
+  
+ 
+
+ 
+
+
+
+
+<article class="Content">
+
+
+
+
+
+
+
+
+  
+ <p22>
+<center>
+  <form action="#" id="hi">
+<br><br><br><br><br>
+    <label>Sunday:</label>
+    <input name="sunday"> <br>
+    <label>Monday</label>
+    <input name="monday"> <br>
+	 <label>Tuesday</label>
+    <input name="tuesday"> <br>
+	 <label>Wednesday</label>
+    <input name="wednesday"> <br>
+	 <label>Thursday</label>
+    <input name="thursday"> <br>
+	 <label>Friday</label>
+    <input name="friday"> <br>
+	 <label>Saturday</label>
+    <input name="saturday"> <br>
+
+  <br>
+
+    <input type="button" name="calc" value="Calculate" onclick="CalculateTargetHeartRate(this.form.sunday.value, this.form.monday.value,this.form.tuesday.value,this.form.wednesday.value,
+	this.form.thursday.value,this.form.friday.value,this.form.saturday.value, 'result')" /></p>
+  </form>
+  
+
+  </center></p22>
+
+
+
+
+</article>
+
+
+
+
+<footer><br>
+ <center><p>Average Sleep per Night in Hours: <output id="result"></output></p></center>
+
+
+</footer>
+  
+</body>
+
+
+
+
+</html>

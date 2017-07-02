@@ -1,0 +1,184 @@
+/*css file*/
+
+body {
+	
+	font-family:Geneva,Arial,Helvetica,sans-serif;
+	margin: 0px auto;
+	padding:5px;
+	max-width:90%;
+	
+	
+	background:-webkit-linear-gradient(orange, grey, purple) fixed; 
+	}
+
+header {
+	display:block;
+	color:#FFFFFF;
+	text-align:center;
+	border-radius: 25px 25px 0px 0px;
+	background:-webkit-linear-gradient(grey, purple); 
+}
+
+header h2 {
+	margin: 0px;
+     color:#FFFFFF;
+}
+
+h1 {
+	font-family: 'Covered By Your Grace', cursive;
+	
+	font-size: 400%;
+	margin: 0px;
+}
+
+h2 {
+	
+	text-shadow: 2px 2px black;
+	font-size: 24px;
+	margin: 0px;
+	text-align:center;
+	color: orange;
+}
+
+h3 {
+	
+	font-family: 'Covered By Your Grace', cursive;
+	font-size: 250%;
+	margin: 0px;
+	text-align:center;
+	color: #00ff00;
+}
+
+h4 {
+	font-weight: bold;
+	color: white;
+	background-color: red;
+	opacity: 0.2;
+	-webkit-transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	border-radius: 25px 25px 25px 25px;
+	text-align:center;
+	box-shadow: 5px 5px 5px black;
+}
+
+nav {
+	
+	display:block;
+	width:25%;
+	float:left;
+}
+
+nav a:link, nav a:visited {
+	box-shadow: 5px 5px 5px black;
+	color:orange;
+	display: block;
+	background-color: grey;
+	padding: 10px;
+	text-decoration: none;
+	font-weight: bold;
+	margin: 5px;
+	border-radius: 25px 25px 25px 25px;
+}
+nav a:hover {
+	color:blue;
+    background-color: yellow;
+}
+nav h3 {
+	margin: 15px;
+	color: white;
+}
+
+#my_div {
+	
+	border-radius: 0px 0px 25px 25px;
+	background:-webkit-radial-gradient(red, grey, orange); 
+}
+
+section {
+	display:block;
+	width:50%;
+	float:left;
+}
+section h1 {
+	
+	font-family: 'Covered By Your Grace', cursive;
+	padding: 5px;
+     font-size: 250%;
+	margin: 0px;
+	text-align:center;
+	color: white;
+}
+
+article {
+	background-color: #eee;
+	display:block;
+	margin: 10px;
+	padding: 10px;
+	border-radius: 25px 25px 25px 25px;
+}
+
+article header {
+	font-family: 'Indie Flower', cursive;
+	padding: 5px;
+}
+
+article footer {
+	font-family: 'Montserrat', sans-serif;
+     background-color: #0000ff;
+	padding: 5px;
+	background:-webkit-radial-gradient(orange,grey); 
+}
+
+article h1 {
+	
+	font-size: 18px;
+      color:#FFFFFF;
+
+}
+
+	
+aside {
+	display:block;
+	width:25%;
+	float:left;
+}
+
+aside h3 {
+	margin: 15px;
+	color: white;
+}
+
+aside p {
+	margin: 15px;
+	color: white;
+	font-weight: bold;
+	font-style: italic;
+}
+	
+
+footer {
+	clear: both;	
+	display: block;
+	color:#FFFFFF;
+	text-align:center;
+	padding: 15px;
+	border-radius: 0px 0px 25px 25px;
+	
+	background:-webkit-radial-gradient(orange,grey); 
+}
+
+footer h2 {
+	font-size: 14px;
+	color: white;
+	text-shadow: 1px grey;
+}
+
+
+/* links */
+a {
+	color: #00ffff;
+}
+
+a:hover {
+	text-decoration: underline;
+}

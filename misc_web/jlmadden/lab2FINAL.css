@@ -1,0 +1,185 @@
+article, aside, figure, figcaption, footer, header, hgroup, nav, section, summary {   
+  display: block;   
+}
+
+body {
+  font-size: medium;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background-color:white;
+}
+
+header{
+  position: float;	
+  padding-top: 0px;
+  margin: auto;
+  padding-bottom: 3px;
+  height: 10%;
+  width: 100%;
+  
+  background-color:#404040;
+}
+header.SiteHeader {
+  position: float;	
+  padding-top: 0px;
+  padding-bottom: 3px;
+  height: 10%;
+  width: 100%;
+  
+  background-color:red;
+  margin:auto;
+display:block;
+}
+aside.NavSidebar h3 {
+  color: gold;
+  
+  margin-bottom: 0px;
+  margin-top: 20px;
+}
+aside.NavSidebar img {
+ 
+  border: black solid 4px;
+  margin-top: 3px;
+}
+aside.NavSidebar
+{
+  position: absolute;
+  top: 10%;
+  left: 0%;
+  width: 20%;
+  height: 85%;
+  background-color:grey;
+  font-size: small;
+  overflow-y: scroll;
+}
+
+
+
+.Content {
+	
+position: absolute;
+  top: 10%;
+  left: 20%;
+  width: 80%;
+  height: 85%;
+  overflow-y: scroll;
+  background-color:white;
+  font-size: small; 
+}
+
+.Content p99 {
+  color: black;
+  font-weight: bold;
+  font-size: large;
+}
+
+.Content p98 {
+  color: grey;
+  font-size: medium;
+}
+
+.Content p97 {
+  color: #500000;
+  font-size: small;
+}
+
+.FloatFigure {
+  float: left;
+  margin-left: 0px;
+  margin-top: 0px;
+  margin-right: 20px;
+  margin-bottom: 0px;
+} 
+.FloatFigure1 {
+  float: center;
+  margin-left: 0px;
+  margin-top: 0px;
+  margin-right: 20px;
+  margin-bottom: 0px;
+} 
+
+.FloatFigure figcaption {
+  max-width: 200px;
+  font-size: small;
+  font-style: italic;
+  margin-bottom: 5px;
+}
+
+
+footer {
+  position: absolute;
+  top: 95%;
+  left: 0%;
+  width: 100%;
+  height: 5%;
+  background-color:#800000;
+  
+  font-size: small;	
+}
+
+
+
+@media (max-width: 768px) {
+	
+	header.SiteHeader {
+  position: float;	
+  padding-top: 0px;
+  padding-bottom: 3px;
+  top: 0%;
+  height: 10%;
+  width: 100%;
+  background-color:red;
+  margin:auto;
+display:block;
+}
+	
+
+  .Content {
+    float: none;
+    width: 100%;
+	
+	top: 10%;
+  left: 0%;
+  bottom: 25%;
+  height: 65%;
+	
+	
+  }	
+	
+	
+	
+  aside.NavSidebar {
+    float: left;
+    width: 100%;
+    min-height: 0em;
+	
+	margin-right: 20%;
+	top: 75%;
+  left: 0%;
+  
+  height: 20%;
+	overflow-y: scroll;
+  }
+	
+	
+  
+
+
+  
+  .footer{
+   float: none;
+   width: 100%;
+   
+   top: 95%;
+  left: 0%;
+  font-size: x-small;
+  height: 5%;
+   
+   }
+
+}
+
+
