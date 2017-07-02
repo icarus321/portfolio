@@ -1,0 +1,93 @@
+<html>
+<head>
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<link rel="stylesheet" href="myCSS.css" />
+
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
+	
+<script>
+
+
+
+//use two forward slashes to show comments in javascript
+//html page consists of different tags
+//you have the < html > tag that wraps everything
+//you show the end of an html tag with a forward slash < / html >
+//the head tag is where you put your calls to external javascript pages
+//you can also define your own javascript inside the head tag
+//style can be set inside the head tag or through an external css page
+//this program is calling an external css page
+//css defines what colors you will use in your page
+//there are three primary ways we define style properties in css 
+//the first way is to reference the tag
+//if you look at the css page you will notice how the html and body tags are defined
+//to reference the tags you just write the name of the tag html{whatever properties you want}
+//the second way to define css is by referencing the id of an element
+//we reference ids by using the # character, just like when we define #div1, it's the id
+//the third way is to reference a class, this is done with a period before the tag name
+//the third way would be something like .yourClass
+//we don't reference elements by class as often as by tag type or by id
+//no classes were used in this page
+//the style tag looks like < style > 
+//don't use the extra whitespace inside the tags, just showing examples
+//all your tags should look like the ones shown in this page
+
+
+
+//var map is a global variable, we set the value inside the function below
+//we make it global so it can be used in other functions
+var map;
+
+
+//this is a function definition
+//very similar to java syntax
+function makeMap(){
+		map = L.map('map',{ center: [41.83969, -87.663776], zoom: 4});
+		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
+}
+
+</script>
+
+</head>
+<!-- 
+this is how we leave comments in html
+note that it's used on multiple lines and different from comments 
+used defined in javascript
+it's basically a tag with a leading exclamation point and two simple dashes --
+the end of the comment is shown with two dashes and the tag symbol
+you place all your comments inside this section
+-->
+
+<!-- 
+another simple comment
+-->
+
+
+<!-- 
+below is where we define the body tag
+the body tag is very important
+it's where all your div elements will go and where the map goes
+think of the javascript as the technical side and the body section
+as your graphical user interface
+all the css you define will show in the elements below
+the body tag is also making use of a very helpful event listener
+when the page loads the function makeMap is called in the javascript
+
+-->
+<body onload="makeMap()">
+
+
+<!-- 
+the tag below is where our map goes
+note that it's in a div container
+the id is map
+-->
+<div id="map"></div>
+
+   
+
+</body>
+</html>
+
+

@@ -1,0 +1,76 @@
+<html>
+<head>
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<link rel="stylesheet" href="myCSS2.css" />
+
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
+	
+<script>
+
+
+//add legend
+//change array to global variable
+//javascript date
+//caglar procedures
+//push js to new page
+//add marker symbol for editing
+
+
+var map;
+
+
+
+
+
+
+
+
+
+
+function makeMap(){
+		map = L.map('map',{ center: [41.83969, -87.663776], zoom: 11});
+		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
+		
+}
+
+
+
+
+
+		
+	
+	</script>
+
+</head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<body onload="makeMap()">
+
+
+
+<div id="map"></div>
+<div id="div1"></div>
+<div id="div2"></div>
+<div id="div3"></div>
+   
+
+</body>
+</html>
+
+

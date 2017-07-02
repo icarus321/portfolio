@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+   
+<title>Weather App</title>
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="http://js.arcgis.com/3.7/"></script>
+<link rel="stylesheet" href="http://js.arcgis.com/3.7/js/dojo/dijit/themes/claro/claro.css">
+<link rel="stylesheet" href="http://js.arcgis.com/3.7/js/esri/css/esri.css">
+
+<link rel="stylesheet" href="myCSSESRI.css"> 	
+  
+
+<script>
+       var map;
+
+ 
+      require(["esri/map"], function(Map)
+	  { 
+	   map = new Map("map", { basemap: "hybrid",center: [-107.876175,38.478321],scaleControl: true,zoom: 5,minZoom:3});
+	  
+       }
+	   )
+	 
+	  //notice how we are not calling a function to make our map in the body tag below
+	  //we are using a different technique which is a javascript require statement
+	  //most of esri's onlince tutorials will use the method shown above
+	  //keep in mind you can get the exact same result by deleting what's shown above and uncommenting the line below
+	  //you would obviously need to call the makeMap function in the body tag just like in the leaflet examples
+	 //function makeMap(){map = new esri.Map("map", { basemap: "hybrid",center: [-107.876175,38.478321],scaleControl: true,zoom: 5});}
+	 	  
+    </script>
+
+
+</head>
+
+<body>
+<div id="header"><h1>WEATHER APPLICATION</h1></div>
+<div id="map"></div>
+<div id="leftContainer" ></div>
+	
+    
+        
+    <div id="footer"></div> 
+    
+
+</body>
+</html>

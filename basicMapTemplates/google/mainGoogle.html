@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Geolocation Map</title>
+<style>
+#mapSurface {width: 80%;border-radius: 25px 25px 25px 25px;height: 600px;border: solid 5px orange;}
+@media (max-width: 400px) {#mapSurface {height: 600px%;width: 100%;border: solid 0px orange;}}
+</style>
+
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<script>
+var map;
+var myLatLng = {lat: 41.6611277, lng: -91.5301683};
+
+window.onload = function() {
+var mapOptions = {
+  zoom: 13,
+  zoomControl: true,
+  zoomControlOptions:{
+  position: google.maps.ControlPosition.TOP_RIGHT,
+	},
+  mapTypeId: google.maps.MapTypeId.ROADMAP,
+  mapTypeControlOptions:{style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
+};
+map = new google.maps.Map(document.getElementById("mapSurface"), mapOptions);
+map.setCenter(myLatLng);
+}
+</script>
+
+</head>
+
+<body height="100%" width="100%">
+ <center> 
+  <div id="mapSurface"></div>
+</center>
+</body>
+</html>
