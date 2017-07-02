@@ -1,0 +1,32 @@
+<html><head><style>
+body{height:100%;width:100%;background-color:RGB(237,122,43);}
+
+
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+myVar = window.location.href;
+
+try{myVar2 = myVar.split("=");}
+catch(err){}
+function myFUN(){
+if(myVar2[1]=="Retry"){alert("Username or password doesn't exist, please try again");}
+
+
+}
+
+</script>
+
+
+</head>
+<body onload="myFUN()">
+<h1>Welcome To the Main Page</h1><br>
+<form action="welcomePhp.php" method="post">
+<input type="text" name="userLogin" placeholder="Enter User Name"><br>
+<input type="text" name="userPass" placeholder="Enter Password"><br>
+<input type = "submit"><br>
+</form>
+<p><a href="signUp3.html">Sign-up for an Account</a></p>
+</body>
+
+</html>

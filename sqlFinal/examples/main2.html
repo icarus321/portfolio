@@ -1,0 +1,55 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+		<link rel="stylesheet" href="myCSS.css"> 
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+		<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+		<script src="myGeo.geojson"></script>
+		<script src="myJS.js"></script>
+	</head>
+
+<body onload="myFun();togWards()">
+
+<div id="header"><strong><font color="black"> <h1> <center>The Windy-City</center></h1> </font></strong></div>
+
+
+<div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'"></div>
+        
+<div id="leftContainer" >
+	<center>
+		<br>
+			<select id="myCat">
+				<option value="categories">Categories</option>
+				<option value="HOMICIDE">Homicide</option>
+				<option value="PROSTITUTION">Prostitution</option>
+				<option value="ARSON">Arson</option>
+			</select>     
+			<input type="button" onclick="confirmFun()" value="Do Query">
+		<br><br>
+			<input type="date" name="date" id="datepicker" onchange="dateFun(this.value)">
+			<input type="date" name="date2" id="datepicker2" onchange="dateFun2(this.value)">
+		<br><br>
+			<input type="button" id="btn1" onclick="funId()" value="Date Query">
+		<br><br>
+			<input type="button" id="btn2" onclick="choropleth()" value="Choropleth">
+		<br><br>
+			<input type="button" id="btn3" onclick="togWards()" value="Toggle Wards">
+		<br><br>
+			<input type="button" id="btn4" onclick="startFun()" value="Start Editing">
+		<br><br>
+			<input type="button" id="btn5" onclick="clearPoints()" value="Clear Points">
+		
+	</center>
+</div>
+
+
+
+<div id="footer"><center></center></div>
+ 
+</body>
+
+</html>
+
+

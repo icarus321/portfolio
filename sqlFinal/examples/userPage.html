@@ -1,0 +1,274 @@
+<html><head>
+<link rel="stylesheet" type="text/css" href="myCSS.css">
+<style>
+body{height:100%;width:100%;background-color:RGB(237,122,43);}
+#tHist{cursor:pointer;}#myCat{cursor:pointer;}#aInfo{cursor:pointer;}
+#cart:hover{background-color:RGB(91,155,213);border-style:solid;color:white;}
+#cart{background-color:grey;border-style:solid;color:white;}
+#myDiv2{border-style:solid;color:white;}
+table{outline:3px solid white;color:white;}
+h1,#myDiv,#cartDiv{border: 3px solid white;}
+h1{background-color:RGB(91,155,213);top:20px;max-width:23%;border-radius:10px;color:RGB(255,255,255)}
+td,tr,th{outline:1px solid white;color:white;}
+#cartDiv{overflow-y:auto;visibility:hidden;position:absolute;left:5%;background-color:RGB(91,155,213);width:13%;top:50%;height:20%;border-radius:10px;color:RGB(255,255,255);}
+@media(max-width:1150px){#cart{position:relative;margin-left:-8%;bottom:-10px;}}
+@media(max-height:880px){#cartDiv{top:60%;}}
+@media(max-height:700px){#cartDiv{top:400px;}}
+@media(max-width:600px){h1{max-width:44%;}}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+
+
+//global variables used to set the welcome to current user
+myVar = window.location.href;
+myVar2 = myVar.split("=");
+myVar3 = myVar2[1].split("&");
+
+//global arrays used for purchases
+myCheckArray = [];
+finalArrayD=[];
+
+myParam3 = 1;
+
+
+//jquery function that adds the user name to the header banner
+$(document).ready(function(){$("h1").append(" " +myVar3[0]);});
+
+
+
+//this is the ajax function call
+function showUser(str, myInt, pp3) {
+    //if condition is executed if we don't want the ajax function to run
+    if (str == "bob" || str =="categories") {document.getElementById("myDiv2").innerHTML = "";return;} 
+    
+    else {
+	// code for IE7+, Firefox, Chrome, Opera, Safari
+        if (window.XMLHttpRequest) {xmlhttp = new XMLHttpRequest();} 
+	// code for IE6, IE5
+	else {xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");}
+	//function called when the ready state changes
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+		//expression executed for changing div
+		if(myInt<4){
+                document.getElementById("myDiv2").innerHTML = this.responseText;
+		myStrR = this.responseText;
+		varArrayShopI = [];varArrayShopP = [];myFun(1);
+		}
+		//expression executed for doing the actual transaction
+		if(myInt==4){document.getElementById("myDiv2").innerHTML = this.responseText;}
+		//expression executed for inserting reviews, reloads to transactions page
+		if(myInt==5 || myInt==6){showUser(myVar3[0], 1, 1);}
+		
+            }
+	    //end of if readystate block
+        };
+        //end of xmlhttp function
+//five if conditions call requested php page
+if(myInt == 1){xmlhttp.open("GET","transHistory.php?q="+myVar3[0],true);}
+
+if(myInt == 2){xmlhttp.open("GET","shop2.php?q="+str,true);}
+
+if(myInt == 3){xmlhttp.open("GET","aInfo.php?q="+myVar3[0],true);}
+
+if(myInt == 4){xmlhttp.open("GET","transaction.php?q="+myVar3[0]+"&m="+str+"&n="+finalArrayD+"&o="+myDeliveryT+"&v="+myLat+"&z="+myLon,true);}
+if(myInt == 5){xmlhttp.open("GET","insertReview.php?q="+myVar3[0]+"&m="+str+"&n="+pp3,true);}
+if(myInt == 6){xmlhttp.open("GET","deleteReview.php?q="+str,true);}	
+        xmlhttp.send();
+
+    }
+    //end of first else block
+}
+//end of ajax function
+
+
+
+//the below function push the item description text and price to temp arrays while user views
+//arrays get cleared out every time so it works with id, id is the unique value
+//could be improved, used for buttons in shopping section
+varArrayShopI = [];varArrayShopP = [];
+
+function myFun(n){
+   try{
+       varToPush = document.getElementById(n).innerHTML.split(">");
+       varArrayShopI.push(varToPush[1]);
+       varArrayShopP.push(document.getElementById(-n).innerHTML);
+      }
+catch(err){return;}
+n+=1;
+//recursive function call
+myFun(n);
+
+}
+//end of myFun
+
+
+
+
+//this is the function we call to confirm our purchase, shopping cart
+function myFun2(){
+   myTotal = 0;
+
+   for(g=0;g<finalArrayPrice.length;g++){myTotal = Number(finalArrayPrice[g])+myTotal;}
+   //alert(myTotal);
+
+
+   if(document.getElementById("aR").checked){
+     myDeliveryT = document.getElementById("aR").value;
+     myTotalF = myTotal+Number(myDeliveryT);
+     }
+    
+   else if(document.getElementById("bR").checked){
+     myDeliveryT = document.getElementById("bR").value;
+     myTotalF = myTotal+Number(myDeliveryT);
+     }
+
+   else if(document.getElementById("cR").checked){
+     myDeliveryT = document.getElementById("cR").value;
+     myTotalF = myTotal+Number(myDeliveryT);
+     }
+
+   else{alert("Need to pick a delivery option");
+     }
+     
+
+   myConfirm = confirm("Purchase price: " + myTotalF);
+   //alerts the total purchase price
+   
+
+   if(myConfirm==true){
+      //alert(finalArrayD);
+      theNumT = 4;
+      showUser(myTotalF,theNumT, myParam3);
+      finalArrayPrice=[];finalArrayD=[];
+   }
+
+   document.getElementById("cartDiv").innerHTML=divVar;
+   document.getElementById("cartDiv").style.visibility="hidden";
+   if(myConfirm==false){myTotalF=0;finalArrayD=[];finalArrayPrice=[];return;
+      }
+}
+//end of myFun2()
+
+
+//this is for pushing items in the array to the final array 
+//function is called when button is clicked
+finalArrayD=[];finalArrayPrice=[];
+
+function buyFun(theID){
+   myBuyIter = theID.id.replace("myCheckBox","");
+   finalArrayD.push(varArrayShopI[myBuyIter-1]);
+   finalArrayPrice.push(varArrayShopP[myBuyIter-1]);
+   document.getElementById("cartDiv").style.visibility="visible";
+   $("#theL").append("<li>"+varArrayShopI[myBuyIter-1]+": "+varArrayShopP[myBuyIter-1]+"</li>");
+}
+//end of buyFun
+
+
+
+
+//this is for categories, possibly delete
+myValS2;
+function mySelect(theValS,theNumS){
+
+   if(theValS != myVals2){showUser(theValS, theNums, myParam3);myValS2=theVals;
+      }
+}
+//end of mySelect fun
+
+var divVar;
+function divReset(){
+divVar = document.getElementById("cartDiv").innerHTML;
+}
+//end of divReset
+
+
+
+//delete this function
+function reviewF(isbnR2, r3){
+
+//isbnR2 is the isbn number, r3.value is the comment
+myConfirmRev = confirm("Leave Comment: " + r3.value);
+myReviewNum = 5;
+
+if(myConfirmRev==true){showUser(isbnR2, myReviewNum, r3.value);}
+if(myConfirmRev==false){return;}
+}
+//end of reviewF()
+
+//function sets the placeholder to empty string when user clicks to leave review
+//could be improved for onblur
+function placeFun(theP){theP.placeholder= ' ' ;
+}
+//end of placeFun()
+
+//geolocation function for getting users current position
+//no need for x variable
+var x;
+var myLat;
+var myLon;
+function getLocation(){
+
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+//end of getLocation()
+
+//function is called when user selects to share location
+function showPosition(position) {
+myLat = position.coords.latitude;
+myLon = position.coords.longitude;
+}
+//end of showPosition()
+
+function delFun(del){
+//del is the review id
+alert(del);
+showUser(del,6,1);
+}
+
+</script>
+
+</head>
+
+<body onload="divReset();getLocation()">
+<h1>Welcome To the Main Page<br></h1><br>
+
+<p id="demo"></p>
+
+<div id="myDiv" style="position:absolute;left:5%;background-color:RGB(91,155,213);width:13%;height:20%;border-radius:10px;color:RGB(255,255,255);overflow-x:auto;">
+<center><p id="tHist" style="color:RGB(255,255,255);position:relative;" onclick="showUser('foo2',1, 1)">Transaction History</p> 
+
+
+	<select id="myCat" style="-webkit-appearance: none; text-align:center;text-align-last:center;-moz-appearance:none;border:0px;background-color:RGB(91,155,213);color:RGB(255,255,255);position:relative;top:-10px;" onclick="showUser(this.value,2,1)">
+		<option value="categories" >Shopping Categories</option>
+		<option value="s" >Sporting Goods</option>
+		<option value="c" ><center>Clothing Goods</center></option>
+		<option value="e" >Entertainment</option>
+	</select>
+<p id="aInfo" style="color:RGB(255,255,255);position:relative;top:-20px;" onclick="showUser('foo',3, 1)">Account Information</p>
+</center>
+</div>
+
+<div id="cartDiv">
+<h3>Shopping Cart</h3>
+<ol id="theL"></ol>
+
+
+<h3>Deliver Option</h3>
+<input type="radio" name="radR" id="aR" value="3">$3.00<br>
+<input type="radio" name="radR" id="bR" value="5">$5.00<br>
+<input type="radio" name="radR" id="cR" value="10">$10.00
+
+</div>
+
+<div id="myDiv2" style="position:relative;left:25%;background-color:RGB(91,155,213);overflow-y:auto;width:50%;height:65%;border-radius:10px;color:RGB(255,255,255);"></div>
+<button id="cart" onclick="myFun2()" style="position:relative;left:65%;bottom:-10px;">Shopping Cart</button>
+</body>
+
+</html>

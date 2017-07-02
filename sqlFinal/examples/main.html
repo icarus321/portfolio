@@ -1,0 +1,373 @@
+<html><head>
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+
+<link rel="stylesheet" href="myCSS.css"> 
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+    <script src="myGeo.geojson"></script>
+	
+	
+	
+	
+<script>
+
+
+//add legend
+//change array to global variable
+//javascript date
+//caglar procedures
+//push js to new page
+//add marker symbol for editing
+
+
+myGlobalArray = [];
+myArrayResponse = [];
+myDateArray = [];myDateArray2 = [];
+myGeoA =[];
+choroA=[];
+var theIter=0;
+
+var wardIter = 0;
+
+j=0;
+
+
+
+
+
+
+
+
+
+function myFun(){
+		var map = L.map('map',{ center: [41.83969, -87.663776], zoom: 11});
+		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
+		myGlobalArray.push(map);
+		
+}
+
+
+
+
+function showUser(str, myInt) {
+
+    if (str == "categories") {return;} 
+    
+    else {
+        if (window.XMLHttpRequest) {xmlhttp = new XMLHttpRequest();} 
+        else {xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");}
+        
+        xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+        	 if(theIter>=100){alert("Unable to connect to the database at this time.  Try again later.");theIter=0;return;}
+			 if(myInt == 1 || myInt == 2){
+				myArrayResponse = this.responseText.split(";");
+				myArrayResponse.splice(0,1);myArrayResponse.splice(myArrayResponse.length-1,1);
+				}
+        	  
+        	 if(myInt ==3){choroA = this.responseText.split(";");choroA.splice(0,1);choroA.splice(choroA.length-1,1);}
+			 
+			 //if statement below checks if the response did not come back for the choropleth and if not it calls function again
+        	 if(typeof(choroA[1])== "undefined" && theIter <100 && (myInt == 3)){showUser(str,myInt);theIter++;return;}
+             
+			 //if statement below handles undefined query and date calls, recursive call to function if empty
+			 if(typeof(myArrayResponse[1])== "undefined" && theIter <100 && (myInt == 1 || myInt ==2)){
+            		showUser(str,myInt);theIter++;return;
+            		}
+             
+			 //two if statements below make calls to the functions that return the map objects
+			 if(myInt == 1 || myInt == 2 || myInt == 4){myArrayFun(str);}
+             
+             if(myInt == 3){choroFun2();}
+              
+          }
+        }; 
+        //end og xmlhttp.onreadystatechange function
+
+	//four if statements that make calls to jsp pages
+	if(myInt == 1){xmlhttp.open("GET","callQuery.jsp?q="+str,true);}
+	
+	if(myInt == 2){
+		//if statement below checks if input is empty and returns to cancel the function
+		if(myDateArray.length==0 || myDateArray2.length ==0){alert("need to pick a range");return;}
+		xmlhttp.open("GET","dateq.jsp?q="+str+"&r="+myDateArray[0]+"&s="+myDateArray2[0],true);
+		}
+
+	if(myInt == 3){xmlhttp.open("GET","choropleth.jsp?q="+str,true);}
+	//need to handle when addRecord fails, new iterator to call function
+	//this function will not try a second time if insert fails
+	//it will return all points from input query regardless
+	if(myInt == 4){myInt=1;  xmlhttp.open("GET","addRecord.jsp?q="+str+"&r="+theLat+"&s="+theLon,true);
+	//xmlhttp.open("GET","callQuery.jsp?q="+str,true);
+	}        
+    
+    xmlhttp.send();
+
+    } 
+    //end of else block
+} 
+//end of function show user
+
+
+function myArrayFun(theStr){
+	alert(myArrayResponse[1]);
+	var i;
+	var geojsonMarkerOptions = {radius: 3,fillColor: "#ff7800",color: "#000",weight: 1,opacity: 1,fillOpacity: 0.8};
+	var thegeoj;
+	for(e=0;e<myGeoA.length;e++){myGeoA[e].clearLayers();}
+	myGeoA=[];
+	for(r=0;r<myArrayResponse.length;r++){
+		try {
+			var theP = JSON.parse(myArrayResponse[r]);
+			var thegeoj=L.geoJSON(theP, {pointToLayer: function (feature, latlng) {
+		        return L.circleMarker(latlng, geojsonMarkerOptions);
+		    }});
+			thegeoj.addTo(myGlobalArray[0]);
+			i = r;
+			myGeoA.push(thegeoj);
+			//get rid of try
+			} 
+		catch(err) {}
+	}
+}
+
+function funId(){newCat = document.getElementById("myCat").value;showUser(newCat,2);}
+
+function dateFun(theDate){myDateArray.splice(0,1);myDateArray.push(theDate);}
+	
+function dateFun2(theDate){myDateArray2.splice(0,1);myDateArray2.push(theDate);}
+	
+function funTest2(){alert(myDateArray.length);}
+
+function confirmFun(){myConfirm = document.getElementById("myCat").value;showUser(myConfirm, 1);}
+	
+	
+	function makeWard(){
+	myGeoWard = L.geoJSON(geojsonG, {
+		style:function(feature){
+		switch(feature.properties.ward){
+			case '10': case '15' : case '25' : case '35': case '40': case '19': case '44': case '29' : return{color: "RGB(8,48,107)", fillOpacity:'0.8'}; //good blue
+			case '6' : case '11': case '36': case '41': case '46' :case '13': case '42': return{color: "RGB(63,0,125)", fillOpacity:'0.8'};//good
+			case '3' : case '7' : case '17' : case '22' : case '27' : case '32' : case '50' :case '45':  return{color: "RGB(150,150,150)", fillOpacity:'0.8'};//good
+			case '4' : case '8' : case '23' : case '28' : case '33' : case '38': case '43': case '48' : case '34': case '31' : return{color: "RGB(127,0,0)", fillOpacity:'0.8'};//good red
+			case '9' : case '14' : case '24' : case '18': case '20' : case '39' : case '26' : case '2' : case '30' : case '49' : case '47' :return{color: "RGB(252,141,89)", fillOpacity:'0.8'};
+			case '21': case '16': case '12': case '5' : case '1' : case '37': return{color: "RGB(65,171,93)", fillOpacity:'0.8'};	//good		orange	
+				}						
+			}
+		});
+	}
+	
+	function togWards(){
+		if(wardIter==0){try{myGeoWard.clearLayers();}catch(err){}makeWard();}
+		if(wardIter%2==0){myGeoWard.addTo(myGlobalArray[0]);myGeoWard.bringToBack();wardIter++;return;}
+		if(wardIter%2!=0){myGeoWard.clearLayers();wardIter++; makeWard();}
+		}
+	
+	
+	//function is called by button choropleth
+	//gets my cat value and calls show user 
+	function choropleth(){showUser(document.getElementById("myCat").value,3);}
+	
+	//function to implement equal intervals classification
+	function choroFun2(){
+		try{for(e=0;e<myGeoA.length;e++){myGeoA[e].clearLayers();}
+		myGeoA=[];}
+		catch(err){}
+		try{myGeoWard.clearLayers();}catch(err){}
+		wardHoldA = []; countHoldA=[];
+		choroOptions = [];
+		for(c=0;c<choroA.length;c++){
+			choroOptions = choroA[c].split(":");
+			wardHoldA.push(choroOptions[0]);
+			countHoldA.push(choroOptions[1]);
+			//alert(countHoldA[c]);
+		}
+		var breakVal = (countHoldA[countHoldA.length-1]-countHoldA[0])/5;
+		alert("the break value is: " + breakVal);
+		myGeoWard = L.geoJSON(geojsonG, {
+			style:function(feature){
+				
+				for(i=0;i<wardHoldA.length;i++){
+					//wardHoldS = toString(wardHoldA[i]);
+					//alert(typeof(wardHoldS));
+					//return;
+					//alert("the ward is: "+ wardHoldS+ " " + feature.properties.ward);
+					if(Number(feature.properties.ward)==Number(wardHoldA[i])){
+						//alert("the ward is: "+ wardHoldA[i]+ " " + feature.properties.ward);
+						if(countHoldA[i]<breakVal){return{fillColor: "RGB(251,106,74)",color: "RGB(1,1,1)", fillOpacity:'1'};}
+						if(countHoldA[i]>=breakVal && countHoldA[i]<breakVal*2){return{fillColor: "RGB(239,59,44)", color: "RGB(1,1,1)",fillOpacity:'1'};}
+						if(countHoldA[i]>=breakVal*2 && countHoldA[i]<breakVal*3){return{fillColor: "RGB(203,24,29)", color: "RGB(1,1,1)",fillOpacity:'1'};}
+						if(countHoldA[i]>=breakVal*3 && countHoldA[i]<breakVal*4){return{fillColor: "RGB(165,15,21)", color: "RGB(1,1,1)",fillOpacity:'1'};}
+						if(countHoldA[i]>=breakVal*4){return{fillColor: "RGB(103,0,13)", color: "RGB(1,1,1)",fillOpacity:'1'};}
+						
+					}
+
+				}   
+				//end of for loop
+				for(i=0;i<wardHoldA.length;i++){
+					if(Number(feature.properties.ward)!=Number(wardHoldA[i])){return{fillColor: "RGB(150,150,150)",color: "RGB(1,1,1)", fillOpacity:'1'};}
+				}
+			}
+		}).addTo(myGlobalArray[0]);
+		wardIter = 1;
+	}
+	
+	
+	
+	
+	//start of digitizing functions
+		var myMark; 
+		//the marker
+		var theWin; 
+		//the window	
+		var theLat; 
+		//lat
+		var theLon; 
+		//lon
+	
+	
+	
+			function startFun(){
+			alert("28 feb");
+		document.getElementById("map").style.cursor='pointer';
+		myGlobalArray[0].on('click', function(e) {
+		myLatLon = e.latlng;
+		//alert(myLatLon);
+		myMark = L.marker(myLatLon);
+		myMark.addTo(myGlobalArray[0]);
+		//mA.push(myLatLon);
+		//if(mA.length>1){mA.splice(0,1);}
+		myForm(myLatLon);
+		
+		
+		//alert(mLine.getLatLngs());
+		//for(i=0;i<mL.length;i++){alert(mL[i].getLatLngs()[1]);}
+		e.target.removeEventListener(e.type);
+		});
+		}
+	
+	function myForm(theLatLon){
+		//alert(theLatLon.lat);
+		theLat = theLatLon.lat;
+		theLon = theLatLon.lng;
+		theWin = myMark.bindPopup("Add a new record to the database<br>\n"+
+		"<input id='formType' type='text' style='width:100%' value='Enter type of crime'><br>\n"+
+		"Latitude: "+theLatLon.lat+"<br>Longitude: "+theLatLon.lng+"<br>\n"+
+		"<input type='button' onclick='addFun()'><br><input type='button' onclick='myCancel()' value='cancel'>");
+		
+		theWin.openPopup();
+		document.getElementById('map').style.cursor = '';
+		//theWin.closePopup();
+		//theParam.clearLayers();
+		}
+		
+		
+				function addFun(){
+		
+		//this function needs to remove the marker
+		//call showUser(crime type ,4)
+		//jsp needs to insert records and just draw based on current selection draw 
+		//want the page to simply draw all relevant crimes, those with same category as the input
+		
+		
+		try{alert(document.getElementById("formType").value);}
+		catch(err){}
+		theWin.closePopup();myGlobalArray[0].removeLayer(myMark);
+		showUser(document.getElementById("formType").value,4);
+		
+		}
+		
+		
+		function myCancel(){theWin.closePopup();myGlobalArray[0].removeLayer(myMark);}
+		
+		
+		function clearPoints()
+		{
+			
+			try{for(e=0;e<myGeoA.length;e++){myGeoA[e].clearLayers();}
+			myGeoA=[];}
+			catch(err){}
+			
+		}
+		
+	
+	</script>
+
+</head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<body onload="myFun();togWards()">
+<div id="header" onclick="funTest2()"><strong><font color="black"> <h1> <center>The Windy-City</center></h1> </font></strong>
+</div>
+
+
+<div id="map" data-dojo-type="dijit/layout/ContentPane" 
+data-dojo-props="region:'center'"></div>
+        
+<div id="leftContainer" >
+<center>
+<br>
+
+ <select id="myCat">
+        <option value="categories">Categories</option>
+        <option value="HOMICIDE">Homicide</option>
+        <option value="PROSTITUTION">Prostitution</option>
+        <option value="ARSON">Arson</option>
+    </select>     
+    
+    <input type="button" onclick="confirmFun()" value="Do Query">
+    <br><br>
+	
+	
+     <input type="date" name="date" id="datepicker" onchange="dateFun(this.value)">
+     <input type="date" name="date2" id="datepicker2" onchange="dateFun2(this.value)">
+     <br><br>
+	 
+	 
+	<input type="button" id="btn1" onclick="funId()" value="Date Query">
+	<br><br>
+	<input type="button" id="btn2" onclick="choropleth()" value="Choropleth">
+	<br><br>
+	<input type="button" id="btn3" onclick="togWards()" value="Toggle Wards">
+	<br><br>
+	<input type="button" id="btn4" onclick="startFun()" value="Start Editing">
+	<br><br>
+	<input type="button" id="btn5" onclick="clearPoints()" value="Clear Points">
+</center>
+
+
+
+
+
+</div>
+	
+    
+        
+   <div id="footer"><center></center></div>
+   
+
+</body>
+</html>
+
+

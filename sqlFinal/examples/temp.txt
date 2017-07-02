@@ -1,0 +1,16 @@
+:Person:
+    :FName: Jane :*FName:
+    :LName: Doe :*LName:
+:*Person:
+:Person:
+    :FName: John :*FName:
+    :LName: Doe :*LName:
+:*Person:
+:Person:
+    :FName: John :*FName:
+    :LName: Jones :*LName:
+:*Person:
+:Person:
+    :FName: Jane :*FName:
+    :LName: Smith :*LName:
+:*Person:

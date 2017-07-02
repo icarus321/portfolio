@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Add Record Form</title>
+
+<style>
+body{background-color:RGB(237,122,43);}
+input{width:100px;}
+label{width: 95px;}
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+myVar = window.location.href;
+
+try{myVar2 = myVar.split("=");}
+catch(err){}
+$(document).ready(function(){if(myVar2[1]=="Retry"){alert("Username already exists, please try again");}});
+
+</script>
+
+</head>
+
+    <body>
+
+    <form action="myPhp3.php" method="post">
+
+
+            <label for="userName" style="display:inline-block;">User Name:</label>
+            <input type="text" name="userName" id="userName" placeholder="Enter User Name"><br>
+            <label for="userPassword" style="display:inline-block;">Password:</label>
+            <input type="text" name="userPassword" id="userPassword" placeholder="Enter Password"><br>
+            <label for="cardNum" style="display:inline-block;">Card Number:</label>
+            <input type="text" name="cardNum" id="cardNum" placeholder="Enter Number"><br>
+            <label for="cardType" style="display:inline-block;">Card Type:</label>
+            <input type="text" name="cardType" id="cardType" placeholder="Enter Type"><br>
+ 	    <label for="cardBalance" style="display:inline-block;">Balance:</label>
+            <input type="text" name="cardBalance" id="cardBalance" placeholder="Enter Balance"><br>
+	    <input type="submit" value="Submit" style="width:206px;">
+
+    </form>
+
+    </body>
+
+</html>
+
+

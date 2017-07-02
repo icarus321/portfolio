@@ -1,0 +1,17 @@
+html, body{height:100%;width:100%;}
+body{height:100%;width:100%;background-color:RGB(237,122,43);}
+#tHist{cursor:pointer;}#myCat{cursor:pointer;}#aInfo{cursor:pointer;}
+#cart:hover{background-color:RGB(91,155,213);border-style:solid;color:white;}
+#cart{background-color:grey;border-style:solid;color:white;}
+#myDiv2{border-style:solid;color:white;}
+table{outline:3px solid white;color:white;}
+h1,#myDiv,#cartDiv{border: 3px solid white;}
+h1{background-color:RGB(91,155,213);top:20px;max-width:23%;border-radius:10px;color:RGB(255,255,255)}
+td,tr,th{outline:1px solid white;color:white;}
+#cartDiv{overflow-y:auto;visibility:hidden;position:absolute;left:5%;background-color:RGB(91,155,213);width:13%;top:50%;height:20%;border-radius:10px;color:RGB(255,255,255);}
+select::-ms-expand{display:none;}
+@media(max-width:1150px){#cart{position:relative;margin-left:-8%;bottom:-10px;}}
+@media(max-height:880px){#cartDiv{top:60%;}}
+@media(max-height:700px){#cartDiv{top:400px;}}
+@media(max-width:600px){h1{max-width:44%;}}
+

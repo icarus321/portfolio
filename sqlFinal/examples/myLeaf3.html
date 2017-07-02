@@ -1,0 +1,126 @@
+<html>
+<head>
+	<title>Leaflet Map</title>
+	<!-- External Stylesheets -->
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
+	<script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
+	<style>#map{height:80%;width:100%}#dv2{height:20%;width:100%;top:80%;}</style>
+	
+	
+	<script>
+	
+	var map; //the map document
+	var myMark; //the marker
+	var theWin; //the window	
+	var theLat; //lat
+	var theLon; //lon
+	
+	
+	
+	
+	function myFun(){
+		map = L.map('map',{ center: [41.77, -87.5333], doubleClickZoom: false, zoom: 9});
+		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
+	}
+		
+		
+		
+	
+		
+		//var mA=[];
+		//var mL=[];
+		
+		function startFun(){
+		
+		map.on('click', function(e) {
+		myLatLon = e.latlng;
+		//alert(myLatLon);
+		myMark = L.marker(myLatLon);
+		myMark.addTo(map);
+		//mA.push(myLatLon);
+		//if(mA.length>1){mA.splice(0,1);}
+		myForm(myLatLon);
+		
+		
+		//alert(mLine.getLatLngs());
+		//for(i=0;i<mL.length;i++){alert(mL[i].getLatLngs()[1]);}
+		e.target.removeEventListener(e.type);
+		});
+		}	
+    	
+		
+		//pType,latlon
+		function myForm(theLatLon){
+		//alert(theLatLon.lat);
+		theLat = theLatLon.lat;
+		theLon = theLatLon.lng;
+		theWin = myMark.bindPopup("Add a new record to the database<br>\n"+
+		"<form action='#' onsubmit='addFun()'><input id='formType' type='text' style='width:100%' value='Enter type of crime'><br>\n"+
+		"Latitude: "+theLatLon.lat+"<br>Longitude: "+theLatLon.lng+"<br>\n"+
+		"<input type='submit'></form><br><input type='button' onclick='myCancel()' value='cancel'>");
+		
+		theWin.openPopup();
+		//theWin.closePopup();
+		//theParam.clearLayers();
+		}
+		
+    	
+		
+		function addFun(){
+		
+		//this function needs to remove the marker
+		//call showUser(crime type ,4)
+		//jsp needs to insert records and just draw based on current selection draw 
+		//want the page to simply draw all relevant crimes, those with same category as the input
+		
+		alert("in add function");
+		try{alert(document.getElementById("formType").value);}
+		catch(err){}
+		theWin.closePopup();map.removeLayer(myMark);
+		showUser(document.getElementById("formType").value,4);
+		
+		}
+		
+		
+		function myCancel(){alert("in cancel");theWin.closePopup();map.removeLayer(myMark);}
+		
+		
+		
+		
+		
+		
+		
+		// Add OpenStreetMap tile layer to map element
+		
+    	// Create variable to hold map element, give initial settings to map
+    	// Create point feature for Kendall Square T Station		
+
+		//for(i=0;i<myArray1.length;i++){L.marker([myArray1[i], myArray2[i]]).addTo(map);}
+		//var myDataPoint = L.marker([41.6667, -91.5333]).addTo(map);
+		//function myFun2(){for(i=0;i<myArray1.length;i++){L.marker([myArray1[i], myArray2[i]]).addTo(map);}}
+		//document.getElementById("map").addEventListener("click", addM);
+		//myStr="click";
+		//document.getElementById("map").addEventListener(myStr, clearM);
+		
+		//function addM() {myMarker=[];for(i=0;i<myArray1.length;i++){myMarker[i] = L.marker([myArray1[i], myArray2[i]]);myMarker[i].addTo(map);}}
+		//function clearM(event) {alert(map);alert(event.getLatLng());alert("bob");}
+		//myGlobalArray[0].on('click', function(e) { alert("Lat, Lon : " + e.latlng.lat + ", " + e.latlng.lng) });
+		
+		
+		
+		
+		
+	</script>
+</head>
+<body onload="myFun();">
+	<!-- Our web map and content will go here -->
+	<div id="map"></div>
+	<!-- Add the Leaflet JavaScript library -->
+	<div id="div2">
+	<input type="button" onclick="startFun()" value="Button Click">
+	</div>
+	
+	
+	
+</body>
+</html>
