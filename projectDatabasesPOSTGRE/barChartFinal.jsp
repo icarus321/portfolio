@@ -1,0 +1,116 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>D3 Demo: Making a bar chart with value labels!</title>
+		<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+		
+	</head>
+	<body>
+
+		<sql:setDataSource var="jdbc" driver="org.postgresql.Driver" 
+	        url="jdbc:postgresql://neuromancer.icts.uiowa.edu/institutional_repository"
+	        user="demo" password="demo"/>
+			
+		<script type="text/javascript">
+
+			//Width and height
+			var w = 900;
+			var h = 500;
+			var barPadding = 5;
+			var dataset = [];
+			var dataset2 = [];
+			<sql:query var="rows" dataSource="${jdbc}">
+			select clinical_trials.clinical_study.completion_date
+			from clinical_trials.clinical_study
+			inner join clinical_trials.overall_official
+			on clinical_trials.clinical_study.id=clinical_trials.overall_official.id
+			where clinical_trials.overall_official.affiliation like '%University of Iowa%'
+			order by clinical_trials.clinical_study.completion_date;
+			</sql:query>
+
+			<c:forEach items="${rows.rows}" var="row" varStatus="rowCounter">
+			var strR = '${row.completion_date}'.substring(0, 4);
+			dataset.push(strR);
+			
+
+
+			</c:forEach>
+				var count = [];
+				var msg = '';
+				var msg2 = '';
+
+				for (var i = 0; i < dataset.length; i++) {
+				if (count[dataset[i]]) {
+				count[dataset[i]] += 1;
+				} else {
+				count[dataset[i]] = 1;
+				}
+				}
+
+				for (i in count) msg += i + ' occurres ' + count[i] + ' times\n';
+				for (i in count) {msg2 = count[i]; dataset2.push(msg2);} ;
+			//Create SVG element
+			var svg = d3.select("#div3")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", h);
+
+			svg.selectAll("rect")
+			   .data(dataset2)
+			   .enter()
+			   .append("rect")
+			   .attr("x", function(d, i) {
+			   		return i * (w / dataset2.length);
+			   })
+			   .attr("y", function(d) {
+			   		return h - (d * 10);
+			   })
+			   .attr("width", w / dataset2.length - barPadding)
+			   .attr("height", function(d) {
+			   		return d * 10;
+			   })
+			   .attr("fill", function(d) {
+					return "rgb(0, 0, " + 255 + ")";
+			   });
+
+			svg.selectAll("text")
+			   .data(dataset2)
+			   .enter()
+			   .append("text")
+			   .text(function(d) {
+			   		return d;
+			   })
+			   .attr("text-anchor", "middle")
+			   .attr("x", function(d, i) {
+			   		return i * (w / dataset2.length) + (w / dataset2.length - barPadding) / 2;
+			   })
+			   .attr("y", function(d) {
+				   if(d==2 || d==1){return h - (d * 4) - 14;};if(d==3){return h - (d * 4) - 22;};
+				   if(d==4){return h - (d * 4) - 26;};if(d==8){return h - (d * 4) - 50;};
+				   
+				   
+				   if(d==22){return h - (d * 4) - 135;};if(d==32){return h - (d * 4) - 200;};
+				   if(d==17){return h - (d * 4) - 110;};if(d==21){return h - (d * 4) - 135;};
+				   if(d==35){return h - (d * 4) - 215;};if(d==27){return h - (d * 4) - 170;};
+				   if(d==30){return h - (d * 4) - 190;};if(d==18){return h - (d * 4) - 115;};
+				   if(d==16){return h - (d * 4) - 100;};if(d==25){return h - (d * 4) - 155;};
+			   })
+			   .attr("font-family", "sans-serif")
+			   .attr("font-size", "11px")
+			   .attr("fill", "black");
+		
+			</script>
+<pre>89   98   99   03   04   05   06   07   08  09   10   11   12   13  14   15   16   17   18   19   20   21  29 No Data
+                                                Year Range(1989-2029)</pre>
+
+
+	</body>
+</html>
