@@ -1,0 +1,11 @@
+This is a large database application that was programmed with: PostgreSQL, PostGIS, HTML, CSS, JavaScript and Java.  
+The program was developed to visualize crime data in the city of Chicago.
+The application supports: querying, digitizing, custom choropleth mapping, temporal animation and statistical analysis.
+
+Important Files
+main.html; the main landing page
+addRecord.jsp; call to add new point to database
+aniimation.jsp; handles call to database for temporal animation 
+callQuery.jsp; for basic query, returns points for a specific type of crime
+callQueryDate.jsp; similar to callQuery but it looks for records in a defined period of time
+choropleth.jsp; handles the call to make the custom choropleth map
