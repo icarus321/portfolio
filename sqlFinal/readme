@@ -1,0 +1,22 @@
+There are actually two projects in this directory.  The first project is an Amazon-like E-Commerce site where clients can
+buy and sell goods from.  The program supports commenting and includes a login and a sign-up page.  The second application was
+desgned to manage the E-Commerce app and identifies important information such as which goods sell the most.  I also included a very
+neat geo-tracking function that identifies the location where each good was purchased from.
+
+Project 1 Files
+welcome.html; main landing page/login page
+signUp3.html; sign up page for new clients
+userPage.html; template for client landing page (homepage)
+insertReview.php; insert client reviews
+deleteReview.php; delete client reviews 
+transaction.php; call to complete a transaction
+aInfo.php; returns client specific account information
+shop2.php
+transHistory.php
+
+Project 2 Files
+adminPage.html; main landing page for the business owner
+clientTransactions.php; list the goods and number of transactions for each client
+timeQuery.php; lists how many goods get sold in the afternoon vs morning
+popularItems.php; list how many of each good has been sold in descending order
+makeMap.php; plots a point on a map at the location where each transaction occurred
