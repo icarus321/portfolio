@@ -1,0 +1,5 @@
+This is a large database application that was programmed with: PostgreSQL, PostGIS, HTML, CSS, JavaScript and Java.
+The program supports querying, digitizing, temporal animation and statistical analysis.
+
+Files
+main.html; the main landing page
