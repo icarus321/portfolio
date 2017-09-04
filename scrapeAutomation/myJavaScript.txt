@@ -1,0 +1,154 @@
+var myArray1 = [];
+var latLonHolder=[];
+var myCounty;
+var myCount;
+
+//function called when client clicks on button
+function myBtnFun(){
+document.getElementById("tDiv").innerHTML="";
+var myCount = document.getElementById("myText").value;
+myCounty = '<font face="Arial" size="2">'+myCount+"&nbsp;</font>";
+showUser(myCounty,1,"foo");
+}
+
+//start of ajax function
+//handles initial request to scrape data from homepage
+function showUser(myCounty,option2, option3) {
+        if (window.XMLHttpRequest) {xmlhttp = new XMLHttpRequest();} 
+		else {xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");}
+		
+		//two if conditions call either main page or individual site pages
+		//option3 parameter is the href to each well's homepage
+		if(option2==1){xmlhttp.open("GET","https://cogcc.state.co.us/COGIS/DrillingPermitsList.cfm",true);}
+        if(option2==2){xmlhttp.open("GET",option3,true);}
+        xmlhttp.send();
+		
+		//function is called when the ready state changes
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+			//if(this.responseText==""){showUser(myCounty,option2, option3);}
+			//document.getElementById("tDiv").innerHTML = this.responseText;
+                if(option2==1){rT= this.responseText;
+                  var parser=new DOMParser();
+                  var xmlDoc=parser.parseFromString(rT,"text/html");
+                  var tds = xmlDoc.getElementsByTagName("table");
+	              document.getElementById("tDiv").innerHTML="<table id='myTable'>"+tds[1].innerHTML+"</table>";
+				  var c = document.body.childNodes;
+				  var c2 = document.getElementById("myTable").childNodes;
+				  c3=c2[1].childNodes;
+				  //c4=c3.childNodes;
+				  myArray1=[];
+				  for(i=0;i<c3.length;i++){
+					  c4=c3[i].childNodes;
+				
+					if(c4.length==25){myArray2=[];myM = c4[23].innerHTML.toString();
+					if(myM==myCounty){
+						for(i2=0;i2<c4.length;i2++){myArray2.push(c4[i2].innerHTML);}
+						myArray1.push(myArray2);
+					}
+				
+					}
+				
+				  }
+				 myFun3();
+				 }
+				 //end of first ajax call
+				 
+				 //if condition handles requests for lat/lon data
+					if(option2==2){rt2=this.responseText;
+						var parser2=new DOMParser();
+						var xmlDoc2=parser2.parseFromString(rt2,"text/html");
+						var tds2 = xmlDoc2.getElementsByTagName("font");
+						for(iLoc=0;iLoc<tds2.length;iLoc++){
+							iLocVar = tds2[iLoc].innerHTML.toString();
+							if(  (iLocVar.includes("Lat/Long") && iLocVar.includes("1"||"2"||"3"||"4"||"5"||"6"||"7"||"8"||"9"))  &&
+								(iLoc!=0)  )
+								{myLatLon=tds2[iLoc].innerHTML.toString();latLonHolder.push(myLatLon);return;}
+
+						}
+
+					}
+				}
+        };
+}
+//end of ajax function
+
+function myFun3(){
+latLonHolder=[];
+var myJSON = {cName : [],location : [],latLon:[]};
+
+
+for(j=0;j<myArray1.length;j++){
+
+myA2Fin = myArray1[j].toString();
+myA2Final = myA2Fin.split(",");
+
+for(i=0;i<myA2Final.length;i++){
+	if(myA2Final[i]==myCounty){cA= myA2Final[i].replace('<font face="Arial" size="2">',"").replace("&nbsp;</font>","");myJSON.cName.push(cA);}
+	if(myA2Final[i].includes("<a href=")){myL = myA2Final[i].slice(51,105);myL2=myL.replace("&amp;","&");myJSON.location.push("https://cogcc.state.co.us"+myL2);}
+}
+
+//call ajax for lat lon data
+showUser(myCounty,2, myJSON.location[j]);
+//countyArray.push(myA2Final[myA2Final.length-2]);
+//locationArray.push(myA2Final[myA2Final.length-8]);
+
+}
+
+document.getElementById("tDiv").innerHTML="";
+wait(myJSON);
+}
+
+//recursive function that waits until all lat lon values are returned
+function wait(myJSON){
+  if (latLonHolder.length<myJSON.cName.length){
+	if(latLonHolder.length==100){alert(myJSON.cName[0]+" has "+myJSON.cName.length+" wells, "+latLonHolder.length+" processed")}
+	if(latLonHolder.length==400){alert(myJSON.cName[0]+" has "+myJSON.cName.length+" wells, "+latLonHolder.length+" processed")}
+	if(latLonHolder.length==700){alert(myJSON.cName[0]+" has "+myJSON.cName.length+" wells, "+latLonHolder.length+" processed")}
+	if(latLonHolder.length==1000){alert(myJSON.cName[0]+" has "+myJSON.cName.length+" wells, "+latLonHolder.length+" processed")}
+
+  setTimeout(wait,100, myJSON);return;
+  } 
+  
+  else {alert("done");myFun4(myJSON);}
+}
+
+
+
+
+
+function myFun4(myJSON){
+ $("#tDiv").append("<table><tr><th>County</th><th>Location</th></tr>");
+
+ for(i=0;i<latLonHolder.length;i++){
+	 $("#tDiv").append("<tr><td style='border-top:0px solid #ffffff;border-right:0px solid #ffffff'>"+myJSON.cName[i]+"</td><td style='border-top:0px solid #ffffff;'>"+latLonHolder[i]+"</td></tr>");
+	 
+	 
+	 } 
+
+ $("#tDiv").append("</table>");   
+
+ var countyArray3 =[];
+ var locationArray3 =[];
+
+ var link = document.getElementById('downloadlink');
+ link.style.display = 'block';
+     
+ var textFile = null,
+ makeTextFile = function (text) {var data = new Blob([text], {type: 'unicode'});
+ if (textFile !== null) {window.URL.revokeObjectURL(textFile);}
+ textFile = window.URL.createObjectURL(data);
+ return textFile;
+        };
+		//end of makeTextFile declaration
+    
+ //var create = document.getElementById('btn1');
+ //textbox = document.getElementById('tDiv');
+ var mapString = "function makeMap(){map = L.map('map',{ center: [38.485607, -106.595318], zoom: 7});L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: '&copy;' }).addTo(map);for(i=0;i<myL.length;i++){myL2 = myL[i].split('/');myMark = L.marker([Number(myL2[0]),Number(myL2[1])]);myMark.addTo(map);}}";
+
+	for(i=0;i<latLonHolder.length;i++){mLL=latLonHolder[i].replace("Lat/Long:","");mLL2=mLL.trim();countyArray3.push("'"+myJSON.cName[i]+"'");locationArray3.push("'"+mLL2+"'")}
+	myLinks = '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" /><scr'+'ipt src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></scr'+'ipt>';
+    link.href = makeTextFile('<html><head>'+myLinks+'<style>html,body,#map{height:100%;width:100%;position:float;padding:0;margin:0;}</style><scr'+'ipt>var myA=['+countyArray3+']; var myL=['+locationArray3+'];var map;'+mapString+'</scr'+'ipt>'+'</head><body onload="makeMap()"><div id="map"></div></body></html>');
+    
+}
+//end of function myFun4

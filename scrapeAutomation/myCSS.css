@@ -1,0 +1,8 @@
+#bDiv{height:15%;overflow-y:auto;}
+#tDiv{height:85%;overflow-y:auto;}
+table {font-family: arial;border-collapse: collapse;}
+th{ border: 1px solid #dddddd;}
+td{ border: 1px solid #dddddd;}
+td, th {text-align: left;padding: 2px;}
+th{width:200px;}
+td{width:200px;}

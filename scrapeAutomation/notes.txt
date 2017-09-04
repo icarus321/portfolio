@@ -1,0 +1,42 @@
+This program scrapes permitting data from the following website  https://cogcc.state.co.us/COGIS/DrillingPermitsList.cfm
+
+The application acquires data from an html table and makes connections to each sites individual homepage
+
+The program also includes the necessary functionality for plotting points on a map that represent the location of each well
+
+Clients can export the maps to their own html page
+
+The same function that is used to create the html pages could be used for writing data to text files
+
+Runtime varies based on the county and server speed
+	- Lincoln County takes between 20-40 seconds on average
+	- Baca County takes between 10-20 seconds on average
+	- Larger counties take close to ten minutes as over 2000 connections have to be made
+
+A few improvements could be made, each of which are discussed below
+
+(1) If a lat lon value does not exist for a well the program will not work
+	- I tested the program with many counties and did not encounter any problems
+	- An easy fix would be to include another iterator that checks if values are within a range of five or ten of each other
+	- The proposed addition would require nesting
+
+(2) The program is currently gathering the county name and lat/lon values
+	- Similar approaches could be used for other values in the table located on the main page
+	
+(3) Should use some timeout or check if a request comes back empty
+	- currently the client will just have to resubmit their request if data doesn't come through
+	- better to use something like 3 loops and recursively call the ajax function with parameter "option2" equal to 1
+
+(4) Use select tags rather than text input
+
+(5) Issue with Firefox & IE 
+	- not a major concern given the intended use
+	
+	
+Use Instructions
+	- Use in Chrome or Edge
+	- should type in name of the county exactly as it appears in the table, use all caps
+	
+Map Notes
+	- program simply adds a point at the location of each well
+	- could build on this program by incorporating clustering, popup windows, custom markers and choropleth mapping
