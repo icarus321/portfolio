@@ -28,7 +28,7 @@
 try{
 Class.forName("org.postgresql.Driver");
 con1=DriverManager.getConnection
-("jdbc:postgresql://localhost:5432/chicagoTest","postgres","pass");
+("jdbc:postgresql://localhost:5432/databaseName","postgresUsername","postgresPassword");
 s2=con1.createStatement();
 
 int rowsAdded = 0;
