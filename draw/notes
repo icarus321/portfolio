@@ -1,1 +1,25 @@
+This is a drawing application that clients can create polygon features from and also store those features permanently in a database.
 
+The program requires the client to select a type of feature to digitize.
+In the case of this application, conservation practices (wetlands, bioreactors, etc.) are created.
+
+Features have to be created inside an edit session.
+
+Features are appended to the db once the client double clicks.
+
+Once a feature is added, all features in the database are added, this could be improved.
+
+The program does not support toggling layers on and off.  This should be included.
+
+The program only supports polygons, though points and lines are used to generate the polygons.
+
+The program does support deleting features.  Clients can delete features by clicking on the pop-up associated with the feature.
+  Though it's pretty user friendly, the delete option could be improved with a select feature option.  
+  Additionally, if multiple people are going to use the application you would likely want limit delete options to those that
+    created the features.  This would require tracking the polygons and adding a username variable to the JSON string stored in
+    the db.
+    
+The database is very simple and consists primarily of a JSON string stored as text.
+    The JSON representation makes changing the functionality for different scopes rather easy.
+    Postgres was used to create the db.  MongoDB may be a better option.
+  
