@@ -1,0 +1,35 @@
+<html>
+<head>
+    <title>Leaflet Map</title>
+    <!-- External Stylesheets -->
+    
+    <style>#map{height:80%;width:100%}#dv2{height:20%;width:100%;top:80%;}</style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+    <script src="theJavaScript.js"></script>
+</head>
+
+<body onload="myFun()">
+    <!-- Our web map and content will go here -->
+    <div id="map"></div>
+    <!-- Add the Leaflet JavaScript library -->
+    <div id="div2">
+
+<button onclick="showUser('foo',2)">Add Polygons</button><br>
+<button onclick="startFun();startFun2();">Start Editing</button>
+<select id="featType">
+<option value="Feature Type">Select a Feature</option>
+<option value="gWaterway">Grassed Waterway</option>
+<option value='Wetland'>Wetland</option>
+<option value="Pond">Retention Pond</option>
+<option value="bStrip">Buffer Strip</option>
+<option value="aPoint">Bioreactor</option>
+</select><br>
+<button onclick="checkEdits();">Stop Editing</button>
+
+</div>
+    
+    
+    
+</body>
+</html>
