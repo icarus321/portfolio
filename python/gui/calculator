@@ -1,0 +1,266 @@
+from __future__ import division
+import Tkinter, os, sys
+from Tkinter import *
+
+# handle string myFinal for additioal requests
+# set max window size
+# highlight buttons
+# create a class
+
+myArray=[]
+myArray2=[]
+change="no"
+
+def myFun(myI):
+    global intP
+    global isDone
+    
+    intP=1
+    try:
+        if isDone=="yes":
+            myText2.configure(state='normal')
+            myText2.delete(0,END)
+            myText2.configure(state='readonly')
+    except:
+        pass
+    isDone="no"
+    myText.configure(state='normal')
+    myText2.configure(state='normal')
+    myText.insert(INSERT,myI)
+    myText2.insert(INSERT,myI)
+    myText.configure(state='readonly')
+    myText2.configure(state='readonly')
+    #print theP1
+    
+
+def myOp(theOperation):
+    global intI
+    # switch the operator
+    global intP
+    global isDone
+    if isDone=="yes":
+        mND=myText2.get()
+        myText.configure(state='normal')
+        myText.insert(INSERT,mND)
+        myText.configure(state='readonly')
+        isDone="no"
+    mO = myText2.get()
+    if mO[len(mO)-1]=="+" or mO[len(mO)-1]=="-" or mO[len(mO)-1]=="x" or mO[len(mO)-1]=="/":
+        myText2.configure(state='normal')
+        myText2.delete(len(myText2.get())-1)
+        myText2.configure(state='readonly')       
+    """if intP==0:
+        myText2.configure(state='normal')
+        myText2.delete(len(myText2.get())-1)
+        myText2.configure(state='readonly')"""
+    intI=0
+    myText.configure(state='normal')
+    if myText.get()=="-" or myText.get()==".":
+        myText.configure(state='readonly')
+        return
+    if myText.get()!="":
+        myArray.append(myText.get())
+    myArray2.append(theOperation)
+    myText2.configure(state='normal')
+    if theOperation=="1":
+        theO="+"
+    if theOperation=="2":
+        theO="-"
+    if theOperation=="3":
+        theO="x"
+    if theOperation=="4":
+        theO="/"
+    myText2.insert(INSERT,theO)
+    myText2.configure(state='readonly')
+    if len(myArray) < len(myArray2):
+        #print "pop"
+        myArray2.pop(len(myArray2)-2)
+    myText.configure(state='readonly')
+    clearOp("foo")
+    #intP=0
+def doOperation():
+
+    myText.configure(state='normal')
+    myArray.append(myText.get())
+    k=0
+    myStringNew=""
+    stringTest = ""
+    for each in myArray:
+        stringTest = stringTest + str(each)
+        try:
+            if myArray2[k]=="1":
+                stringTest=stringTest+str("+")
+            if myArray2[k]=="2":
+                stringTest=stringTest+str("-")
+            if myArray2[k]=="3":
+                stringTest=stringTest+str("*")
+            if myArray2[k]=="4":
+                stringTest=stringTest+str("/")
+        except:
+            pass
+        if k==len(myArray)-1:
+            break
+        k+=1
+
+    myText.configure(state='readonly')
+    while(len(myArray)>0):
+        myArray.pop()
+    while(len(myArray2)>0):
+        myArray2.pop()
+    clearOp("foo")
+    myText2.configure(state='normal')
+    myText2.delete(0,END)
+    try:
+        myFinal = str(eval(stringTest))
+    except:
+        myFinal="Error"
+    myText2.insert(INSERT,myFinal)
+    global isDone
+    isDone="yes"
+    myText2.configure(state='readonly')
+    #print "finalNum is " + str(eval(stringTest))
+    #print "done"
+
+
+
+def clearOp(option):
+    global intP
+    myText.configure(state='normal')
+    myText2.configure(state='normal')
+    if option == "clear2":
+        #print "yes"
+        myText.delete(0,END)
+        myText2.delete(0,END)
+        while(len(myArray)>0):
+            myArray.pop()
+        while(len(myArray2)>0):
+            myArray2.pop()
+    if option == "clear1":
+        #intP=0
+        myText2.delete(len(myText2.get())-len(myText.get()),END)
+    if option == "clear1" or option == "foo":
+        #print "yes"
+        #length of myText is 3 (333)
+        # length of myText2 is 5 4+333
+        # need to delete index 2 to 4
+        myText.delete(0,END)
+    if option == "deleteLast" and len(myText.get())>0:
+        myText.delete(len(myText.get())-1)
+        myText2.delete(len(myText2.get())-1)
+    ts = myText.get()
+    try:
+        if ts[len(ts)-1]=="+" or ts[len(ts)-1]=="-" or ts[len(ts)-1]=="*" or ts[len(ts)-1]=="/":
+            pass
+            #intP=0
+    except:
+        pass
+    myText.configure(state='readonly')
+    myText2.configure(state='readonly')
+
+intI = 0
+def negPos():
+    myText.configure(state='normal')
+    myText2.configure(state='normal')
+    global intI
+    if intI%2 == 0:
+        print "ok "  + str(intI)
+        myText.insert(0,"-")
+        myText2.insert(0,"-")
+        myText.configure(state='readonly')
+        myText2.configure(state='readonly')
+        intI+=1
+        return
+    if intI%2 !=0:
+        print "no"
+        myText.delete(0,1)
+        myText2.delete(0,1)
+        myText.configure(state='readonly')
+        myText2.configure(state='readonly')
+        intI+=1
+        return
+    
+    #print theP1
+
+mainWindow = Tkinter.Tk()
+#myWidth=mainWindow.winfo_screenwidth()
+#myHeight=mainWindow.winfo_screenheight()
+myWidth="350"
+myHeight="200"
+mainWindow.geometry(str(myWidth)+"x"+str(myHeight))
+mainWindow.size()
+myFrameNew=Tkinter.Frame(master=mainWindow,width="250",height="25",bg="red",cursor="arrow")
+myFrame=Tkinter.Frame(master=mainWindow,width="350",bg="red",cursor="arrow")
+myFrame3=Tkinter.Frame(master=mainWindow,width="350",height="25",bg="blue",cursor="arrow")
+
+myFrameNew.grid(row=0,column=1,columnspan=2)
+myFrame.grid(row=1,column=0, columnspan=2)
+myFrame3.grid(row=2,column=0,columnspan=2)
+
+
+#myText = Tkinter.Text(myFrameNew,width="29",height="1")
+myText=Tkinter.Entry(myFrameNew,width=25, justify=RIGHT,bd =10,state="readonly")
+myText.pack(side=RIGHT)
+
+myText2=Tkinter.Entry(myFrame3,relief=FLAT,justify=RIGHT,bd =5,state="readonly")
+#myText2=Tkinter.Label(myFrame3,bd =5)
+myText2.pack(side=RIGHT)
+
+#need to switch negative and positive
+wNeg = Tkinter.Button(myFrame,text="-",width=10,bg="grey",command=lambda:negPos())
+wNeg.grid(row=4,column=0)
+w0 = Tkinter.Button(myFrame,text="0",width=10,bg="grey",command=lambda:myFun(0))
+w0.grid(row=4,column=1)
+wPeriod = Tkinter.Button(myFrame,text=".",width=10,bg="grey",command=lambda:myFun("."))
+wPeriod.grid(row=4,column=2)
+wEquals = Tkinter.Button(myFrame,text="=",width=10,bg="grey",command=lambda:doOperation())
+wEquals.grid(row=4,column=3)
+
+w1 = Tkinter.Button(myFrame,text="1",width=10,bg="grey",command=lambda:myFun(1))
+w1.grid(row=3,column=0)
+w2 = Tkinter.Button(myFrame,text="2",width=10,bg="grey",command=lambda:myFun(2))
+w2.grid(row=3,column=1)
+w3 = Tkinter.Button(myFrame,text="3",width=10,bg="grey",command=lambda:myFun(3))
+w3.grid(row=3,column=2)
+wPlus = Tkinter.Button(myFrame,text="+",width=10,bg="grey",command=lambda:myOp("1"))
+wPlus.grid(row=3,column=3)
+
+w4 = Tkinter.Button(myFrame,text="4",width=10,bg="grey",command=lambda:myFun(4))
+w4.grid(row=2,column=0)
+w5 = Tkinter.Button(myFrame,text="5",width=10,bg="grey",command=lambda:myFun(5))
+w5.grid(row=2,column=1)
+w6 = Tkinter.Button(myFrame,text="6",width=10,bg="grey",command=lambda:myFun(6))
+w6.grid(row=2,column=2)
+wMinus = Tkinter.Button(myFrame,text="-",width=10,bg="grey",command=lambda:myOp("2"))
+wMinus.grid(row=2,column=3)
+
+
+w7 = Tkinter.Button(myFrame,text="7",width=10,bg="grey",command=lambda:myFun(7))
+w7.grid(row=1,column=0)
+w8 = Tkinter.Button(myFrame,text="8",width=10,bg="grey",command=lambda:myFun(8))
+w8.grid(row=1,column=1)
+w9 = Tkinter.Button(myFrame,text="9",width=10,bg="grey",command=lambda:myFun(9))
+w9.grid(row=1,column=2)
+wMult = Tkinter.Button(myFrame,text="X",width=10,bg="grey",command=lambda:myOp("3"))
+wMult.grid(row=1,column=3)
+
+wClear2 = Tkinter.Button(myFrame,text="CE",width=10,bg="grey",command=lambda:clearOp("clear1"))
+wClear2.grid(row=0,column=0)
+wClear1 = Tkinter.Button(myFrame,text="C",width=10,bg="grey",command=lambda:clearOp("clear2"))
+wClear1.grid(row=0,column=1)
+wDel = Tkinter.Button(myFrame,text="<-",width=10,bg="grey",command=lambda:clearOp("deleteLast"))
+wDel.grid(row=0,column=2)
+wDiv = Tkinter.Button(myFrame,text="/",width=10,bg="grey",command=lambda:myOp("4"))
+wDiv.grid(row=0,column=3)
+mainWindow.mainloop()
+
+
+
+
+
+
+
+
+
+
+
+
