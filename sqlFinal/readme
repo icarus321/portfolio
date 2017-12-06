@@ -1,7 +1,6 @@
 There are actually two projects in this directory.  The first project is an Amazon-like E-Commerce site where clients can
 buy and sell goods from.  The program supports commenting and includes a login and a sign-up page.  The second application was
-desgned to manage the E-Commerce app and identifies important information such as which goods sell the most.  I also included a very
-neat geo-tracking function that identifies the location where each good was purchased from.
+desgned to manage the E-Commerce app and identifies important information such as which goods sell the most.  I also included a very neat geo-tracking function that identifies the location where each good was purchased from.
 
 Project 1 Files
 welcome.html; main landing page/login page
