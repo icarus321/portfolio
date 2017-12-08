@@ -30,7 +30,7 @@ Class.forName("org.postgresql.Driver");
 
 con1=DriverManager.getConnection
 
-("jdbc:postgresql://webdev.cs.uiowa.edu/jlmadden","jlmadden","KNLy3G5B_zUa");
+("databaseName","username","password");
 
 s2=con1.createStatement();
 
