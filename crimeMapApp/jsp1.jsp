@@ -21,9 +21,9 @@ catch (java.lang.ClassNotFoundException e) {
 
 <%
     Connection con = null;
-    String url = "jdbc:postgresql://webdev.cs.uiowa.edu/jlmadden";
-    String uid = "jlmadden";
-    String pw = "KNLy3G5B_zUa";
+    String url = "dbName";
+    String uid = "username";
+    String pw = "password";
 
    
         try {
