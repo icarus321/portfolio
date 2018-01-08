@@ -47,9 +47,9 @@ def getData(pathURL,eachFile):
 
 #myFiles = raw_input("Enter the files you wish to download")
 #eachFile = myFiles.split(",")
-theFiles=["roads", "rivers"]
-#the URL of the site you wish to download files from
-theURL = "ftp://ftp.igsb.uiowa.edu/gis_library"
+theFiles=["Name of file 1", "Name of file 2"]
+#the URL of the FTP site you wish to download files from
+theURL = "url you wish to acquire from"
 
 
 getData(theURL,theFiles)
