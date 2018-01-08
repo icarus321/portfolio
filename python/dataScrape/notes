@@ -9,7 +9,7 @@ The script is useful when you have a lot of files to acquire that
 have similar naming conventions or when you have a few very large datasets
 you need.  If you only have a few files, it's probably not all that beneficial.
 
-This script works in almost every FTP and usually requires no changes from site to site.
+This script works in almost every public FTP repository and usually requires no changes from site to site.
 
 It's currently setup to acquire zip files but if adaptations are needed they can be
 implemented in one or two lines of code.
