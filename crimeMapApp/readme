@@ -1,6 +1,6 @@
 This is a large database application that was programmed with: PostgreSQL, PostGIS, HTML, CSS, JavaScript and Java.  
 The program was developed to visualize crime data in the city of Chicago.
-The application supports: querying, digitizing, custom choropleth mapping, temporal animation and statistical analysis.
+The application supports: querying, digitizing, custom choropleth mapping, spatio-temporal animation and statistical analysis.
 
 Important Files
 main.html; the main landing page
