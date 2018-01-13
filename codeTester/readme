@@ -1,7 +1,7 @@
 This is a basic HTML testing application.  It is similar in nature to the application provided by 
-W3schools though it is programmed using distinctly different code and has a unique design.  The program also allows for
-exporting the code once the client is happy with the general layout.  The exporting is done through a button.
-Javascript can be tested in the applicaiton.
+W3schools though it is programmed using distinctly different code and has a unique design.  
+The program also allows for exporting the code once the client is happy with the general layout.  
+The exporting is done through a button.  Javascript can be tested in the applicaiton.
 
 Limitations exist in the program.  Though the applicaiton will work in many browsers, it's intended to be used in Firefox.
 No display plugins are included for Chrome or any other browser other than Firefox.
